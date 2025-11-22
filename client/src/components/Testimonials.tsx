@@ -1,75 +1,84 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { CircularTestimonials } from "@/components/ui/circular-testimonials";
 import { Star } from "lucide-react";
 
 const testimonials = [
   {
+    quote:
+      "VisaHub saved me weeks of paperwork! The AI wizard understood my situation perfectly and recommended the right visa type. Everything was auto-filled correctly.",
     name: "Sarah Chen",
-    role: "Software Engineer",
-    location: "Singapore → Canada",
-    initials: "SC",
-    quote: "VisaHub made my work visa process so smooth. The auto-fill feature saved me hours of form filling, and the timeline kept me on track throughout.",
-    rating: 5
+    designation: "Student Visa, Canada",
+    src:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
   },
   {
-    name: "Marcus Rodriguez",
-    role: "Digital Nomad",
-    location: "Spain → Portugal",
-    initials: "MR",
-    quote: "As someone who moves countries frequently, VisaHub is a game-changer. The country comparison tool helped me make informed decisions about my next destination.",
-    rating: 5
+    quote:
+      "I was moving to Europe for work and was terrified of the visa process. VisaHub handled everything beautifully. The timeline tracking kept me calm and informed throughout.",
+    name: "Michael Rodriguez",
+    designation: "Work Visa, Germany",
+    src:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
   },
   {
+    quote:
+      "The expert review team caught errors in my application that I would have missed. Their attention to detail and professional guidance made all the difference in my approval.",
     name: "Priya Patel",
-    role: "Student",
-    location: "India → UK",
-    initials: "PP",
-    quote: "The expert review feature caught mistakes in my application that I would have missed. Got approved on the first try! Highly recommended for students.",
-    rating: 5
-  }
+    designation: "Business Visa, UK",
+    src:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
+  },
+  {
+    quote:
+      "I applied for visas to 3 different countries using VisaHub and got approved for all of them. The platform is intuitive, comprehensive, and genuinely helpful.",
+    name: "James Thompson",
+    designation: "Tourist Visas, Multiple Countries",
+    src:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop",
+  },
+  {
+    quote:
+      "As an immigration consultant, I recommend VisaHub to all my international clients. It reduces my workload significantly and clients love the transparency and tracking.",
+    name: "Dr. Elena Vasquez",
+    designation: "Immigration Consultant",
+    src:
+      "https://images.unsplash.com/photo-1507876466836-bc7e7397fe0f?w=400&h=400&fit=crop",
+  },
 ];
 
 export default function Testimonials() {
   return (
-    <section className="py-24 bg-muted/30">
+    <section className="py-24 bg-background">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-4xl font-bold mb-4">Loved by Global Travelers</h2>
+          <div className="flex items-center justify-center gap-1 mb-4">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="w-5 h-5 fill-primary text-primary" />
+            ))}
+          </div>
+          <h2 className="text-4xl font-bold mb-4">
+            Loved by <span className="text-primary">10,000+</span> Visa Applicants
+          </h2>
           <p className="text-xl text-muted-foreground">
-            Join thousands who've simplified their visa journey with VisaHub
+            Real stories from travelers who successfully navigated their visa journey with VisaHub
           </p>
         </div>
-        
-        <div className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
-            <Card key={index} data-testid={`card-testimonial-${index}`}>
-              <CardContent className="p-6 space-y-4">
-                <div className="flex gap-1">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                  ))}
-                </div>
-                
-                <p className="text-muted-foreground leading-relaxed">
-                  "{testimonial.quote}"
-                </p>
-                
-                <div className="flex items-center gap-3 pt-4 border-t border-border">
-                  <Avatar>
-                    <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-                      {testimonial.initials}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <div className="font-semibold">{testimonial.name}</div>
-                    <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                    <div className="text-xs text-muted-foreground">{testimonial.location}</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+
+        <CircularTestimonials
+          testimonials={testimonials}
+          autoplay={true}
+          colors={{
+            name: "hsl(var(--foreground))",
+            designation: "hsl(var(--muted-foreground))",
+            testimony: "hsl(var(--muted-foreground))",
+            arrowBackground: "hsl(var(--primary))",
+            arrowForeground: "hsl(var(--primary-foreground))",
+            arrowHoverBackground: "hsl(var(--primary) / 0.8)",
+          }}
+          fontSizes={{
+            name: "1.5rem",
+            designation: "0.875rem",
+            quote: "1.125rem",
+          }}
+        />
       </div>
     </section>
   );
