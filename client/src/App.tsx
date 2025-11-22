@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import LandingPage from "@/pages/landing";
 import WizardPage from "@/pages/wizard";
 import DashboardPage from "@/pages/dashboard";
+import AIDemoPage from "@/pages/ai-demo";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -14,6 +15,7 @@ function Router() {
       <Route path="/" component={LandingPage} />
       <Route path="/wizard" component={WizardPage} />
       <Route path="/dashboard" component={DashboardPage} />
+      <Route path="/ai-demo" component={AIDemoPage} />
       <Route component={NotFound} />
     </Switch>
   );
