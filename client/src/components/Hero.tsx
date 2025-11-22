@@ -1,104 +1,110 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight, CheckCircle, Globe, Users, Zap } from "lucide-react";
+import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import heroImage from "@assets/generated_images/hero_section_professionals_working.png";
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'spline-viewer': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        url?: string;
-      };
-    }
-  }
-}
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      <div className="absolute inset-0 z-0">
-        <spline-viewer 
-          url="https://prod.spline.design/6PWvJDCpuksvrIzT/scene.splinecode"
-          className="w-full h-full"
-        />
-      </div>
+    <section className="relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background">
+      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:60px_60px]" />
       
-      <div className="absolute inset-0 bg-gradient-to-br from-background/80 via-background/60 to-background/80 z-[1]" />
-      
-      <div className="max-w-7xl mx-auto px-6 py-20 w-full relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium backdrop-blur-sm">
+      <ContainerScroll
+        titleComponent={
+          <div className="space-y-8 px-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium backdrop-blur-sm border border-primary/20">
               <CheckCircle className="w-4 h-4" />
               Trusted by 50,000+ global travelers
             </div>
             
-            <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
-              Your Global Visa Journey, <span className="text-primary">Simplified</span>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
+              Your Global Visa Journey,{" "}
+              <span className="text-primary bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                Simplified
+              </span>
             </h1>
             
-            <p className="text-xl text-muted-foreground leading-relaxed">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Navigate visa applications, tax filings, and permits with AI-powered automation. 
               Get approved faster with expert-guided workflows and real-time tracking.
             </p>
             
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap justify-center gap-4 pt-4">
               <Button 
                 size="lg" 
-                className="group"
+                className="group text-base"
                 data-testid="button-get-started"
               >
                 Get Started Free
-                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button 
                 size="lg" 
                 variant="outline"
+                className="text-base"
                 data-testid="button-see-how-it-works"
               >
                 See How It Works
               </Button>
             </div>
             
-            <div className="flex items-center gap-8 pt-4">
-              <div>
-                <div className="text-3xl font-bold text-primary">195+</div>
-                <div className="text-sm text-muted-foreground">Countries Covered</div>
-              </div>
-              <div className="h-12 w-px bg-border" />
-              <div>
-                <div className="text-3xl font-bold text-primary">98%</div>
-                <div className="text-sm text-muted-foreground">Success Rate</div>
-              </div>
-              <div className="h-12 w-px bg-border" />
-              <div>
-                <div className="text-3xl font-bold text-primary">24/7</div>
-                <div className="text-sm text-muted-foreground">Support</div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-              <img 
-                src={heroImage} 
-                alt="Professionals working on visa applications"
-                className="w-full h-auto"
-              />
-            </div>
-            <div className="absolute -bottom-6 -left-6 bg-card border border-card-border rounded-xl p-4 shadow-lg backdrop-blur-sm">
+            <div className="flex flex-wrap items-center justify-center gap-8 pt-8">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                  <CheckCircle className="w-6 h-6 text-primary" />
+                  <Globe className="w-6 h-6 text-primary" />
                 </div>
-                <div>
-                  <div className="font-semibold">Application Approved!</div>
-                  <div className="text-sm text-muted-foreground">Student Visa - Canada</div>
+                <div className="text-left">
+                  <div className="text-2xl font-bold">195+</div>
+                  <div className="text-sm text-muted-foreground">Countries</div>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-chart-2/10 flex items-center justify-center">
+                  <Zap className="w-6 h-6 text-chart-2" />
+                </div>
+                <div className="text-left">
+                  <div className="text-2xl font-bold">98%</div>
+                  <div className="text-sm text-muted-foreground">Success Rate</div>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-status-online/10 flex items-center justify-center">
+                  <Users className="w-6 h-6 text-status-online" />
+                </div>
+                <div className="text-left">
+                  <div className="text-2xl font-bold">24/7</div>
+                  <div className="text-sm text-muted-foreground">Support</div>
                 </div>
               </div>
             </div>
           </div>
+        }
+      >
+        <div className="relative w-full h-full">
+          <img 
+            src={heroImage}
+            alt="VisaHub Dashboard - Track your visa applications"
+            className="w-full h-full object-cover object-top rounded-2xl"
+          />
+          
+          <div className="absolute bottom-6 left-6 right-6 flex flex-wrap gap-3">
+            <Badge className="bg-primary/90 backdrop-blur-md text-primary-foreground px-4 py-2 text-sm">
+              <CheckCircle className="w-4 h-4 mr-2" />
+              Application Approved
+            </Badge>
+            <Badge className="bg-background/90 backdrop-blur-md text-foreground px-4 py-2 text-sm border border-border">
+              <Zap className="w-4 h-4 mr-2 text-primary" />
+              AI-Powered
+            </Badge>
+            <Badge className="bg-background/90 backdrop-blur-md text-foreground px-4 py-2 text-sm border border-border">
+              <Globe className="w-4 h-4 mr-2 text-primary" />
+              195+ Countries
+            </Badge>
+          </div>
         </div>
-      </div>
+      </ContainerScroll>
     </section>
   );
 }
