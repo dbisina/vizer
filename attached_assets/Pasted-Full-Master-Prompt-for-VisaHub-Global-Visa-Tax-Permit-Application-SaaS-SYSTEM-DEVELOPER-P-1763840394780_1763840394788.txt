@@ -1,0 +1,419 @@
+Full Master Prompt for: VisaHub – Global Visa, Tax & Permit Application SaaS
+
+SYSTEM / DEVELOPER PROMPT (Use this as the master instruction):
+
+You are an expert product designer, full-stack engineer, business strategist, and UX architect. Your task is to design, architect, and generate code for a fully functional SaaS called VisaHub.
+
+VisaHub is a global cross-border application platform that simplifies visa applications, tax filings, permits, and residency/citizenship processes using automation, AI-driven document creation, and guided workflows.
+
+Your output should include branding, feature architecture, database schema, UX flow, backend logic, API endpoints, security considerations, pricing, market positioning, and full MVP plan.
+
+Follow all instructions exactly and produce complete, implementable results.
+
+✅ 1. Product Description
+
+VisaHub is a SaaS platform that helps users:
+
+understand visa requirements
+
+prepare all required documents
+
+autofill immigration forms
+
+track the progress of their applications
+
+receive reminders and deadlines
+
+handle taxes or residency renewals
+
+optionally get expert help
+
+Focus on automation, simplicity, accuracy, and global coverage.
+
+✅ 2. Target Users
+
+Students
+
+Tourists
+
+Remote workers & digital nomads
+
+Immigrants & expatriates
+
+Businesses hiring foreign employees
+
+Immigration consultancies
+
+Travel agencies
+
+✅ 3. Major User Pain Points to Solve
+
+Complex and confusing visa requirements
+
+Incorrect documents causing rejections
+
+Multiple websites with outdated information
+
+No unified tracking or reminders
+
+High costs of immigration lawyers
+
+Difficulty filling out government PDFs
+
+Lack of transparency in processing times
+
+VisaHub must solve all these.
+
+✅ 4. Core MVP Features
+
+A. Guided Visa Wizard
+Step-by-step flow where users answer questions and the system determines:
+
+visa category
+
+required documents
+
+fees
+
+timelines
+
+eligibility status
+
+B. Global Requirements Database
+API-backed knowledgebase covering:
+
+Countries
+
+Visa categories
+
+Required forms
+
+Required docs
+
+Costs and taxes
+
+Processing time
+
+Embassy locations
+
+C. Auto-Document Generator
+AI fills forms like DS-160, Schengen, Study permits, Tourist visas, etc.
+
+D. Document Checklist & Upload Center
+
+Shows required documents
+
+Accepts image/PDF
+
+Validates for quality and completeness
+
+E. Application Tracking Dashboard
+
+Status: Not Started → In Progress → Submitted → Approved
+
+Timeline and countdown clocks
+
+Deadline reminders
+
+Notifications
+
+F. Payment System
+Stripe billing for subscriptions + one-off application fees.
+
+G. Business Portal
+For companies hiring global talent:
+
+Invite employees
+
+Track their visa progress
+
+Store documents
+
+Analytics
+
+H. Optional Human-Assisted Review
+A premium upsell:
+
+Users can request expert review
+
+Experts can leave comments
+
+Editable resubmit flow
+
+✅ 5. Extended Features (Post-MVP upgrade path)
+
+In-app video calls with immigration experts
+
+AI-powered “Risk of Rejection” score
+
+Tax residency wizard
+
+Living cost calculator
+
+Country comparison matrix
+
+Visa sponsorship job board
+
+✅ 6. Tech Stack (Recommend the best possible one)
+Frontend
+
+React or Next.js
+
+TailwindCSS
+
+Shadcn UI
+
+State: Zustand or Redux Toolkit
+
+Mobile
+
+React Native w/ Expo
+
+Backend
+
+Node.js + Express or Fastify
+
+PostgreSQL
+
+Prisma ORM
+
+Redis for caching
+
+Worker queue (BullMQ)
+
+AI Services
+
+LLM for document generation
+
+Form extraction & autofill
+
+OCR for document validation
+
+Storage
+
+S3 / Cloudflare R2 for docs
+
+Cloudinary for images (optional)
+
+Hosting
+
+Vercel for web
+
+Railway / Render / AWS for backend
+
+✅ 7. Full Database Schema
+
+Key tables:
+
+users
+
+profiles
+
+countries
+
+visas
+
+requirements
+
+forms
+
+uploaded_documents
+
+applications
+
+timeline_events
+
+business_accounts
+
+business_users
+
+payments
+
+subscriptions
+
+notifications
+
+Clearly define:
+
+relations
+
+indexes
+
+foreign keys
+
+role-based access
+
+✅ 8. Security Requirements
+
+JWT + Refresh tokens
+
+Role-based permissions (user, expert, admin)
+
+Encrypted document storage
+
+Input validation & rate limiting
+
+Audit logs
+
+SOC-2 compliant logging pattern
+
+Multi-tenant separation for business accounts
+
+✅ 9. Complete Pricing Model
+🔹 Consumer Plans
+
+Free Tier
+
+1 visa wizard
+
+1 document upload
+
+No auto-fill
+
+Basic reminders
+
+Pro ($15/month or $120/year)
+
+Unlimited visa wizards
+
+Auto-fill forms
+
+Document scanning
+
+Multi-country profiles
+
+PDF export
+
+Premium ($49/month or $299/year)
+
+Unlimited everything
+
+Expert review (1 review/month)
+
+Fast-track support
+
+Tax residency guidance
+
+🔹 Business Plans
+
+Startup ($99/month)
+
+5 employees/month
+
+Employer branding
+
+Team dashboard
+
+Growth ($299/month)
+
+20 employees/month
+
+Priority support
+
+Custom workflows
+
+Enterprise ($999+/month)
+
+Custom requirements
+
+API access
+
+Dedicated support team
+
+SLA guarantees
+
+🔹 One-Time Fees
+
+Document Review: $20–$40
+
+Full Application Prep: $75–$150
+
+Translation or notarization (add-on): $15–$50
+
+✅ 10. Branding Guidelines
+
+Name: VisaHub
+Tone: Clean, trustworthy, government-grade professionalism
+Colors:
+
+Midnight Blue (#002C5F)
+
+Sky Blue (#3EA8FF)
+
+Soft Gray (#F1F3F5)
+
+Typography:
+
+Inter or Manrope
+
+UI Style:
+
+Clear timelines
+
+Wizard-like steps
+
+Minimalist dashboard
+
+✅ 11. UX Flow
+
+User enters destination & purpose
+
+AI selects visa type
+
+Checklist generated
+
+User uploads docs
+
+AI validates docs
+
+Auto-filled forms generated
+
+User reviews + edits
+
+Application packaged as PDF
+
+User submits to embassy / or requests expert
+
+Dashboard tracks all steps
+
+✅ 12. MVP Deliverables for the AI to Output
+
+Detailed screens (wireframe & UI spec)
+
+API endpoints + example JSON
+
+Database schema JSON
+
+Backend controller/route code
+
+Frontend pages & components
+
+Payment flow logic
+
+Notification system logic
+
+Deployment guide
+
+Growth strategy
+
+Marketing website copy
+
+Onboarding email sequence
+
+✅ 13. Growth Strategy
+
+SEO: “Visa to X country,” “Work visa guide,” “Digital nomad visa”
+
+TikTok/YouTube explaining “How to get a visa to X country”
+
+Affiliate partnerships with travel agencies
+
+Partnerships with relocation firms
+
+Paid ads targeting expats
+
+Slack/Discord communities for global workers
+
+University partnerships
+
+note use elemments from spline , 21st dev, unicorn studio and react bits to truly elevate the experience
