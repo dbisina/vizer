@@ -1,37 +1,64 @@
-import { Card, CardContent } from "@/components/ui/card";
+import DisplayCards from "@/components/ui/display-cards";
 import { Wand2, FileText, BarChart3, Users, Globe, Shield } from "lucide-react";
 
-const features = [
+const featureCards = [
   {
-    icon: Wand2,
-    title: "AI-Powered Visa Wizard",
-    description: "Answer simple questions and let our AI determine your visa category, requirements, and eligibility instantly."
+    icon: <Wand2 className="size-4 text-primary" />,
+    title: "AI-Powered Wizard",
+    description: "Smart visa recommendations",
+    date: "Instant results",
+    titleClassName: "text-primary",
+    className:
+      "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
   },
   {
-    icon: FileText,
-    title: "Auto-Fill Documents",
-    description: "Automatically populate complex government forms like DS-160, Schengen applications, and work permits."
+    icon: <FileText className="size-4 text-primary" />,
+    title: "Auto-Fill Forms",
+    description: "DS-160, Schengen & more",
+    date: "Save hours of work",
+    titleClassName: "text-primary",
+    className:
+      "[grid-area:stack] translate-x-16 translate-y-10 hover:-translate-y-1 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
   },
   {
-    icon: BarChart3,
+    icon: <BarChart3 className="size-4 text-primary" />,
     title: "Real-Time Tracking",
-    description: "Monitor your application status with visual timelines, deadline reminders, and progress indicators."
+    description: "Monitor application status",
+    date: "24/7 updates",
+    titleClassName: "text-primary",
+    className:
+      "[grid-area:stack] translate-x-32 translate-y-20 hover:translate-y-10",
   },
+];
+
+const additionalFeatureCards = [
   {
-    icon: Users,
+    icon: <Users className="size-4 text-primary" />,
     title: "Expert Review",
-    description: "Get professional immigration consultants to review your application before submission."
+    description: "Professional consultants",
+    date: "100% accuracy",
+    titleClassName: "text-primary",
+    className:
+      "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
   },
   {
-    icon: Globe,
+    icon: <Globe className="size-4 text-primary" />,
     title: "195+ Countries",
-    description: "Comprehensive coverage of visa requirements, processing times, and embassy locations worldwide."
+    description: "Comprehensive coverage",
+    date: "All visa types",
+    titleClassName: "text-primary",
+    className:
+      "[grid-area:stack] translate-x-16 translate-y-10 hover:-translate-y-1 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
   },
   {
-    icon: Shield,
+    icon: <Shield className="size-4 text-primary" />,
     title: "Secure & Private",
-    description: "Bank-level encryption for your documents and personal information with SOC-2 compliance."
-  }
+    description: "Bank-level encryption",
+    date: "SOC-2 compliant",
+    titleClassName: "text-primary",
+    className:
+      "[grid-area:stack] translate-x-32 translate-y-20 hover:translate-y-10",
+  },
 ];
 
 export default function Features() {
@@ -45,24 +72,13 @@ export default function Features() {
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
-            <Card 
-              key={index} 
-              className="hover-elevate transition-all duration-200"
-              data-testid={`card-feature-${index}`}
-            >
-              <CardContent className="p-6 space-y-4">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <feature.icon className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold">{feature.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {feature.description}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
+        <div className="grid md:grid-cols-2 gap-16 max-w-5xl mx-auto">
+          <div className="flex justify-center">
+            <DisplayCards cards={featureCards} />
+          </div>
+          <div className="flex justify-center">
+            <DisplayCards cards={additionalFeatureCards} />
+          </div>
         </div>
       </div>
     </section>
