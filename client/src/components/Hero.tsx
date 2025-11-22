@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle } from "lucide-react";
+import heroImage from "@assets/generated_images/hero_section_professionals_working.png";
 
 declare global {
   namespace JSX {
@@ -13,11 +14,20 @@ declare global {
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center bg-gradient-to-br from-primary/5 via-background to-primary/10 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 py-20 w-full">
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <spline-viewer 
+          url="https://prod.spline.design/6PWvJDCpuksvrIzT/scene.splinecode"
+          className="w-full h-full"
+        />
+      </div>
+      
+      <div className="absolute inset-0 bg-gradient-to-br from-background/80 via-background/60 to-background/80 z-[1]" />
+      
+      <div className="max-w-7xl mx-auto px-6 py-20 w-full relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8 z-10">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
+          <div className="space-y-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium backdrop-blur-sm">
               <CheckCircle className="w-4 h-4" />
               Trusted by 50,000+ global travelers
             </div>
@@ -67,11 +77,12 @@ export default function Hero() {
             </div>
           </div>
           
-          <div className="relative z-10">
-            <div className="relative w-full h-[600px] rounded-2xl overflow-hidden">
-              <spline-viewer 
-                url="https://prod.spline.design/6PWvJDCpuksvrIzT/scene.splinecode"
-                className="w-full h-full"
+          <div className="relative">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              <img 
+                src={heroImage} 
+                alt="Professionals working on visa applications"
+                className="w-full h-auto"
               />
             </div>
             <div className="absolute -bottom-6 -left-6 bg-card border border-card-border rounded-xl p-4 shadow-lg backdrop-blur-sm">
