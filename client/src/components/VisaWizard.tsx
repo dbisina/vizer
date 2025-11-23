@@ -33,7 +33,7 @@ export default function VisaWizard() {
     fullName: ""
   });
 
-  const { data: allVisas = [] } = useQuery({
+  const { data: allVisas = [] } = useQuery<Visa[]>({
     queryKey: ["/api/visas"],
   });
 
@@ -41,7 +41,7 @@ export default function VisaWizard() {
 
   const handleNext = async () => {
     if (currentStep === 1 && formData.destination) {
-      const visas = allVisas.filter(v => 
+      const visas = (allVisas as Visa[]).filter((v: Visa) => 
         v.country.toLowerCase() === formData.destination.toLowerCase()
       );
       setRecommendedVisas(visas);
