@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -6,7 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, Circle } from "lucide-react";
+import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import type { Visa } from "@shared/schema";
 
 const steps = [
   { id: 1, title: "Destination", description: "Where are you going?" },
@@ -16,8 +19,12 @@ const steps = [
   { id: 5, title: "Review", description: "Confirm your details" }
 ];
 
+const countries = ["Canada", "United States", "United Kingdom", "Germany", "Australia"];
+const purposes = ["Tourism", "Work", "Study", "Business", "Visit Family"];
+
 export default function VisaWizard() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [recommendedVisas, setRecommendedVisas] = useState<Visa[]>([]);
   const [formData, setFormData] = useState({
     destination: "",
     purpose: "",
@@ -26,19 +33,44 @@ export default function VisaWizard() {
     fullName: ""
   });
 
+  const { data: allVisas = [] } = useQuery({
+    queryKey: ["/api/visas"],
+  });
+
   const progress = (currentStep / steps.length) * 100;
 
-  const handleNext = () => {
-    console.log('Next step triggered', { currentStep, formData });
+  const handleNext = async () => {
+    if (currentStep === 1 && formData.destination) {
+      const visas = allVisas.filter(v => 
+        v.country.toLowerCase() === formData.destination.toLowerCase()
+      );
+      setRecommendedVisas(visas);
+    }
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
     }
   };
 
   const handleBack = () => {
-    console.log('Back step triggered', { currentStep });
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const isStepValid = () => {
+    switch (currentStep) {
+      case 1:
+        return !!formData.destination;
+      case 2:
+        return !!formData.purpose;
+      case 3:
+        return !!formData.duration;
+      case 4:
+        return !!formData.fullName && !!formData.nationality;
+      case 5:
+        return true;
+      default:
+        return true;
     }
   };
 
@@ -50,21 +82,31 @@ export default function VisaWizard() {
             {steps.map((step, index) => (
               <div key={step.id} className="flex items-center flex-1">
                 <div className="flex flex-col items-center gap-2">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-                    currentStep > step.id 
-                      ? 'bg-primary text-primary-foreground' 
-                      : currentStep === step.id 
-                      ? 'bg-primary text-primary-foreground' 
-                      : 'bg-muted text-muted-foreground'
-                  }`}>
-                    {currentStep > step.id ? <CheckCircle className="w-5 h-5" /> : step.id}
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
+                      currentStep > step.id
+                        ? "bg-primary text-primary-foreground"
+                        : currentStep === step.id
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    {currentStep > step.id ? (
+                      <CheckCircle className="w-5 h-5" />
+                    ) : (
+                      step.id
+                    )}
                   </div>
                   <div className="text-center hidden sm:block">
                     <div className="text-xs font-medium">{step.title}</div>
                   </div>
                 </div>
                 {index < steps.length - 1 && (
-                  <div className={`flex-1 h-1 mx-2 ${currentStep > step.id ? 'bg-primary' : 'bg-muted'}`} />
+                  <div
+                    className={`flex-1 h-1 mx-2 ${
+                      currentStep > step.id ? "bg-primary" : "bg-muted"
+                    }`}
+                  />
                 )}
               </div>
             ))}
@@ -83,19 +125,24 @@ export default function VisaWizard() {
               <div className="space-y-4">
                 <div>
                   <Label htmlFor="destination">Destination Country</Label>
-                  <Select 
+                  <Select
                     value={formData.destination}
-                    onValueChange={(value) => setFormData({...formData, destination: value})}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, destination: value })
+                    }
                   >
-                    <SelectTrigger id="destination" data-testid="select-destination">
+                    <SelectTrigger
+                      id="destination"
+                      data-testid="select-destination"
+                    >
                       <SelectValue placeholder="Select a country" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="canada">Canada</SelectItem>
-                      <SelectItem value="usa">United States</SelectItem>
-                      <SelectItem value="uk">United Kingdom</SelectItem>
-                      <SelectItem value="germany">Germany</SelectItem>
-                      <SelectItem value="australia">Australia</SelectItem>
+                      {countries.map((country) => (
+                        <SelectItem key={country} value={country}>
+                          {country}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
@@ -105,35 +152,24 @@ export default function VisaWizard() {
             {currentStep === 2 && (
               <div className="space-y-4">
                 <Label>Purpose of Travel</Label>
-                <RadioGroup 
+                <RadioGroup
                   value={formData.purpose}
-                  onValueChange={(value) => setFormData({...formData, purpose: value})}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, purpose: value })
+                  }
                   data-testid="radio-purpose"
                 >
-                  <div className="flex items-center space-x-2 p-4 border rounded-lg hover-elevate cursor-pointer">
-                    <RadioGroupItem value="tourism" id="tourism" />
-                    <Label htmlFor="tourism" className="flex-1 cursor-pointer">
-                      Tourism / Vacation
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2 p-4 border rounded-lg hover-elevate cursor-pointer">
-                    <RadioGroupItem value="work" id="work" />
-                    <Label htmlFor="work" className="flex-1 cursor-pointer">
-                      Work / Employment
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2 p-4 border rounded-lg hover-elevate cursor-pointer">
-                    <RadioGroupItem value="study" id="study" />
-                    <Label htmlFor="study" className="flex-1 cursor-pointer">
-                      Study / Education
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2 p-4 border rounded-lg hover-elevate cursor-pointer">
-                    <RadioGroupItem value="business" id="business" />
-                    <Label htmlFor="business" className="flex-1 cursor-pointer">
-                      Business / Conference
-                    </Label>
-                  </div>
+                  {purposes.map((purpose) => (
+                    <div
+                      key={purpose}
+                      className="flex items-center space-x-2 p-4 border rounded-lg hover-elevate cursor-pointer"
+                    >
+                      <RadioGroupItem value={purpose} id={purpose} />
+                      <Label htmlFor={purpose} className="flex-1 cursor-pointer">
+                        {purpose}
+                      </Label>
+                    </div>
+                  ))}
                 </RadioGroup>
               </div>
             )}
@@ -141,22 +177,17 @@ export default function VisaWizard() {
             {currentStep === 3 && (
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="duration">Intended Stay Duration</Label>
-                  <Select 
+                  <Label htmlFor="duration">Duration (in months)</Label>
+                  <Input
+                    id="duration"
+                    type="number"
+                    placeholder="e.g., 6"
                     value={formData.duration}
-                    onValueChange={(value) => setFormData({...formData, duration: value})}
-                  >
-                    <SelectTrigger id="duration" data-testid="select-duration">
-                      <SelectValue placeholder="Select duration" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1-30">1-30 days</SelectItem>
-                      <SelectItem value="31-90">31-90 days</SelectItem>
-                      <SelectItem value="91-180">91-180 days</SelectItem>
-                      <SelectItem value="181-365">181-365 days</SelectItem>
-                      <SelectItem value="365+">More than 1 year</SelectItem>
-                    </SelectContent>
-                  </Select>
+                    onChange={(e) =>
+                      setFormData({ ...formData, duration: e.target.value })
+                    }
+                    data-testid="input-duration"
+                  />
                 </div>
               </div>
             )}
@@ -164,95 +195,119 @@ export default function VisaWizard() {
             {currentStep === 4 && (
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="nationality">Nationality</Label>
-                  <Select 
-                    value={formData.nationality}
-                    onValueChange={(value) => setFormData({...formData, nationality: value})}
-                  >
-                    <SelectTrigger id="nationality" data-testid="select-nationality">
-                      <SelectValue placeholder="Select your nationality" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="india">India</SelectItem>
-                      <SelectItem value="china">China</SelectItem>
-                      <SelectItem value="brazil">Brazil</SelectItem>
-                      <SelectItem value="mexico">Mexico</SelectItem>
-                      <SelectItem value="philippines">Philippines</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label htmlFor="fullName">Full Name</Label>
+                  <Input
+                    id="fullName"
+                    placeholder="John Doe"
+                    value={formData.fullName}
+                    onChange={(e) =>
+                      setFormData({ ...formData, fullName: e.target.value })
+                    }
+                    data-testid="input-fullname"
+                  />
                 </div>
                 <div>
-                  <Label htmlFor="fullName">Full Name (as on passport)</Label>
-                  <Input 
-                    id="fullName"
-                    value={formData.fullName}
-                    onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                    placeholder="Enter your full name"
-                    data-testid="input-full-name"
+                  <Label htmlFor="nationality">Nationality</Label>
+                  <Input
+                    id="nationality"
+                    placeholder="e.g., Canadian"
+                    value={formData.nationality}
+                    onChange={(e) =>
+                      setFormData({ ...formData, nationality: e.target.value })
+                    }
+                    data-testid="input-nationality"
                   />
                 </div>
               </div>
             )}
 
             {currentStep === 5 && (
-              <div className="space-y-4">
-                <div className="p-4 bg-muted/50 rounded-lg space-y-3">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Destination:</span>
-                    <span className="font-medium capitalize">{formData.destination || 'Not selected'}</span>
+              <div className="space-y-6">
+                <div className="bg-muted/50 p-4 rounded-lg space-y-4">
+                  <div>
+                    <div className="text-sm text-muted-foreground">Destination</div>
+                    <div className="font-semibold">{formData.destination}</div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Purpose:</span>
-                    <span className="font-medium capitalize">{formData.purpose || 'Not selected'}</span>
+                  <div>
+                    <div className="text-sm text-muted-foreground">Purpose</div>
+                    <div className="font-semibold">{formData.purpose}</div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Duration:</span>
-                    <span className="font-medium">{formData.duration || 'Not selected'}</span>
+                  <div>
+                    <div className="text-sm text-muted-foreground">Duration</div>
+                    <div className="font-semibold">{formData.duration} months</div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Nationality:</span>
-                    <span className="font-medium capitalize">{formData.nationality || 'Not selected'}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Full Name:</span>
-                    <span className="font-medium">{formData.fullName || 'Not entered'}</span>
+                  <div>
+                    <div className="text-sm text-muted-foreground">Name</div>
+                    <div className="font-semibold">{formData.fullName}</div>
                   </div>
                 </div>
-                <div className="p-4 bg-primary/10 border border-primary/20 rounded-lg">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <div className="font-semibold text-primary mb-1">You're all set!</div>
-                      <p className="text-sm text-muted-foreground">
-                        Based on your information, we'll generate a personalized visa checklist and help you auto-fill the required forms.
-                      </p>
-                    </div>
+
+                {recommendedVisas.length > 0 && (
+                  <div className="space-y-3">
+                    <h3 className="font-semibold">Recommended Visas</h3>
+                    {recommendedVisas.map((visa) => (
+                      <Card key={visa.id} className="p-4">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <div className="font-semibold">{visa.visaType}</div>
+                            <p className="text-sm text-muted-foreground">
+                              {visa.description}
+                            </p>
+                            <div className="mt-2 flex gap-4 text-sm">
+                              <div>
+                                <span className="text-muted-foreground">Processing:</span>{" "}
+                                {visa.processingTimeMin}-{visa.processingTimeMax} weeks
+                              </div>
+                              <div>
+                                <span className="text-muted-foreground">Cost:</span> ${visa.cost}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-2xl font-bold text-primary">
+                              {visa.approvalRate}%
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              approval rate
+                            </div>
+                          </div>
+                        </div>
+                      </Card>
+                    ))}
                   </div>
-                </div>
+                )}
               </div>
             )}
           </CardContent>
 
           <CardFooter className="flex justify-between">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={handleBack}
               disabled={currentStep === 1}
-              data-testid="button-wizard-back"
+              data-testid="button-back"
             >
               Back
             </Button>
-            <div className="flex gap-2">
-              <Button variant="ghost" data-testid="button-wizard-save">
-                Save & Exit
-              </Button>
-              <Button 
+            {currentStep < steps.length ? (
+              <Button
                 onClick={handleNext}
-                data-testid="button-wizard-next"
+                disabled={!isStepValid()}
+                data-testid="button-next"
               >
-                {currentStep === steps.length ? 'Generate Checklist' : 'Continue'}
+                Next
               </Button>
-            </div>
+            ) : (
+              <Button
+                onClick={() => {
+                  // Handle final submission
+                  console.log("Application submitted", formData);
+                }}
+                data-testid="button-submit"
+              >
+                Start Application
+              </Button>
+            )}
           </CardFooter>
         </Card>
       </div>
