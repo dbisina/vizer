@@ -8,6 +8,7 @@ import WizardPage from "@/pages/wizard";
 import DashboardPage from "@/pages/dashboard";
 import AIDemoPage from "@/pages/ai-demo";
 import AuthPage from "@/pages/auth";
+import MarketplacePage from "@/pages/marketplace";
 import DemoHub from "@/pages/demo-hub";
 import NotFound from "@/pages/not-found";
 
@@ -19,6 +20,7 @@ function Router() {
       <Route path="/auth" component={AuthPage} />
       <Route path="/wizard" component={WizardPage} />
       <Route path="/dashboard" component={DashboardPage} />
+      <Route path="/marketplace" component={MarketplacePage} />
       <Route path="/ai-demo" component={AIDemoPage} />
       <Route component={NotFound} />
     </Switch>

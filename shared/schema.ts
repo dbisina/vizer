@@ -58,6 +58,27 @@ export const advisoryResponses = pgTable("advisory_responses", {
   createdAt: text("created_at").notNull(),
 });
 
+export const travelAgents = pgTable("travel_agents", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  description: text("description"),
+  specialties: json("specialties").$type<string[]>().notNull(), // e.g., ["Student Visas", "Work Visas"]
+  countries: json("countries").$type<string[]>().notNull(), // e.g., ["Canada", "USA", "UK"]
+  rating: decimal("rating", { precision: 3, scale: 2 }).notNull(), // 0.00 to 5.00
+  reviewCount: integer("review_count").default(0),
+  responseTime: text("response_time"), // e.g., "2 hours", "24 hours"
+  priceRange: text("price_range"), // e.g., "$500-$2000"
+  website: text("website"),
+  email: text("email"),
+  phone: text("phone"),
+  yearsExperience: integer("years_experience"),
+  successRate: decimal("success_rate", { precision: 5, scale: 2 }), // 0-100%
+  languages: json("languages").$type<string[]>(), // e.g., ["English", "French", "Mandarin"]
+  certifications: json("certifications").$type<string[]>(), // e.g., ["ICCRC", "RCIC"]
+  image: text("image"), // Profile image URL
+  createdAt: text("created_at").notNull(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -75,6 +96,10 @@ export const insertAdvisorySchema = createInsertSchema(advisoryResponses).omit({
   id: true,
 });
 
+export const insertTravelAgentSchema = createInsertSchema(travelAgents).omit({
+  id: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertVisa = z.infer<typeof insertVisaSchema>;
@@ -83,3 +108,5 @@ export type InsertDocument = z.infer<typeof insertDocumentSchema>;
 export type Document = typeof documents.$inferSelect;
 export type InsertAdvisory = z.infer<typeof insertAdvisorySchema>;
 export type Advisory = typeof advisoryResponses.$inferSelect;
+export type InsertTravelAgent = z.infer<typeof insertTravelAgentSchema>;
+export type TravelAgent = typeof travelAgents.$inferSelect;

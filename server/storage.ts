@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Visa, type InsertVisa, type Document, type InsertDocument, type Advisory, type InsertAdvisory } from "@shared/schema";
+import { type User, type InsertUser, type Visa, type InsertVisa, type Document, type InsertDocument, type Advisory, type InsertAdvisory, type TravelAgent, type InsertTravelAgent } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -19,6 +19,12 @@ export interface IStorage {
   getAdvisory(id: string): Promise<Advisory | undefined>;
   getUserAdvisories(userId: string): Promise<Advisory[]>;
   createAdvisory(advisory: InsertAdvisory): Promise<Advisory>;
+  
+  getTravelAgent(id: string): Promise<TravelAgent | undefined>;
+  listTravelAgents(): Promise<TravelAgent[]>;
+  searchTravelAgents(filters: { country?: string; minRating?: number; specialty?: string }): Promise<TravelAgent[]>;
+  createTravelAgent(agent: InsertTravelAgent): Promise<TravelAgent>;
+  seedTravelAgents(): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -26,12 +32,14 @@ export class MemStorage implements IStorage {
   private visas: Map<string, Visa>;
   private documents: Map<string, Document>;
   private advisories: Map<string, Advisory>;
+  private travelAgents: Map<string, TravelAgent>;
 
   constructor() {
     this.users = new Map();
     this.visas = new Map();
     this.documents = new Map();
     this.advisories = new Map();
+    this.travelAgents = new Map();
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -216,7 +224,161 @@ export class MemStorage implements IStorage {
     this.advisories.set(id, newAdvisory);
     return newAdvisory;
   }
+
+  async getTravelAgent(id: string): Promise<TravelAgent | undefined> {
+    return this.travelAgents.get(id);
+  }
+
+  async listTravelAgents(): Promise<TravelAgent[]> {
+    return Array.from(this.travelAgents.values());
+  }
+
+  async searchTravelAgents(filters: { country?: string; minRating?: number; specialty?: string }): Promise<TravelAgent[]> {
+    return Array.from(this.travelAgents.values()).filter(agent => {
+      if (filters.country && !agent.countries.some(c => c.toLowerCase().includes(filters.country!.toLowerCase()))) {
+        return false;
+      }
+      if (filters.minRating && Number(agent.rating) < filters.minRating) {
+        return false;
+      }
+      if (filters.specialty && !agent.specialties.some(s => s.toLowerCase().includes(filters.specialty!.toLowerCase()))) {
+        return false;
+      }
+      return true;
+    });
+  }
+
+  async createTravelAgent(agent: InsertTravelAgent): Promise<TravelAgent> {
+    const id = randomUUID();
+    const newAgent: TravelAgent = { ...agent, id } as TravelAgent;
+    this.travelAgents.set(id, newAgent);
+    return newAgent;
+  }
+
+  async seedTravelAgents(): Promise<void> {
+    const agentsData: Array<Omit<InsertTravelAgent, 'id'>> = [
+      {
+        name: "Global Visa Experts",
+        description: "Specializing in student and work visas with 15+ years of experience",
+        specialties: ["Student Visas", "Work Visas", "Family Sponsorship"],
+        countries: ["Canada", "USA", "UK", "Australia"],
+        rating: 4.8 as any,
+        reviewCount: 342,
+        responseTime: "2 hours",
+        priceRange: "$800-$2000",
+        website: "https://example.com/global-visa",
+        email: "info@globalvisa.com",
+        phone: "+1-888-123-4567",
+        yearsExperience: 15,
+        successRate: 96 as any,
+        languages: ["English", "French", "Spanish", "Mandarin"],
+        certifications: ["ICCRC", "RCIC"],
+        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=agent1",
+        createdAt: new Date().toISOString(),
+      },
+      {
+        name: "Canadian Dream Immigration",
+        description: "Expert in Canadian student and work permits",
+        specialties: ["Student Visas", "Work Visas", "Immigration Planning"],
+        countries: ["Canada"],
+        rating: 4.9 as any,
+        reviewCount: 567,
+        responseTime: "1 hour",
+        priceRange: "$600-$1500",
+        website: "https://example.com/canadian-dream",
+        email: "help@canadiandream.ca",
+        phone: "+1-416-555-1234",
+        yearsExperience: 18,
+        successRate: 98 as any,
+        languages: ["English", "French"],
+        certifications: ["ICCRC", "RCIC"],
+        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=agent2",
+        createdAt: new Date().toISOString(),
+      },
+      {
+        name: "UK University Plus",
+        description: "Specialized in UK education visas and university applications",
+        specialties: ["Student Visas", "University Admissions", "Tier 4 Sponsorship"],
+        countries: ["United Kingdom"],
+        rating: 4.7 as any,
+        reviewCount: 289,
+        responseTime: "3 hours",
+        priceRange: "$700-$1800",
+        website: "https://example.com/uk-plus",
+        email: "support@ukplus.co.uk",
+        phone: "+44-20-1234-5678",
+        yearsExperience: 12,
+        successRate: 94 as any,
+        languages: ["English"],
+        certifications: ["ICCRC"],
+        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=agent3",
+        createdAt: new Date().toISOString(),
+      },
+      {
+        name: "Australia Visa Consultants",
+        description: "Experts in Australian student and skilled migration visas",
+        specialties: ["Student Visas", "Skilled Migration", "Work Visas"],
+        countries: ["Australia"],
+        rating: 4.6 as any,
+        reviewCount: 421,
+        responseTime: "4 hours",
+        priceRange: "$500-$1200",
+        website: "https://example.com/aus-visa",
+        email: "hello@ausvisa.com.au",
+        phone: "+61-2-9123-4567",
+        yearsExperience: 10,
+        successRate: 92 as any,
+        languages: ["English", "Mandarin", "Hindi"],
+        certifications: ["ICCRC"],
+        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=agent4",
+        createdAt: new Date().toISOString(),
+      },
+      {
+        name: "USA Visa Professionals",
+        description: "F-1 student visas and H-1B work visa specialists",
+        specialties: ["Student Visas", "Work Visas", "Visa Interviews"],
+        countries: ["United States"],
+        rating: 4.5 as any,
+        reviewCount: 198,
+        responseTime: "2 hours",
+        priceRange: "$900-$2500",
+        website: "https://example.com/usa-visas",
+        email: "team@usavisa.com",
+        phone: "+1-212-555-9999",
+        yearsExperience: 14,
+        successRate: 91 as any,
+        languages: ["English", "Spanish"],
+        certifications: ["ICCRC"],
+        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=agent5",
+        createdAt: new Date().toISOString(),
+      },
+      {
+        name: "Europe Study Visas",
+        description: "Specializing in German, French, and European student visas",
+        specialties: ["Student Visas", "Schengen Visas", "Language Programs"],
+        countries: ["Germany", "France", "Netherlands", "Spain"],
+        rating: 4.4 as any,
+        reviewCount: 156,
+        responseTime: "5 hours",
+        priceRange: "$400-$1000",
+        website: "https://example.com/europe-study",
+        email: "info@europestudy.eu",
+        phone: "+49-30-1234567",
+        yearsExperience: 8,
+        successRate: 89 as any,
+        languages: ["English", "German", "French"],
+        certifications: ["ICCRC"],
+        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=agent6",
+        createdAt: new Date().toISOString(),
+      },
+    ];
+
+    for (const agent of agentsData) {
+      await this.createTravelAgent(agent as InsertTravelAgent);
+    }
+  }
 }
 
 export const storage = new MemStorage();
 storage.seedVisas().catch(console.error);
+storage.seedTravelAgents().catch(console.error);

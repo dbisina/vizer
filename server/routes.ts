@@ -4,6 +4,30 @@ import { storage } from "./storage";
 import { insertAdvisorySchema, insertDocumentSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Travel Agents endpoints
+  app.get("/api/travel-agents", async (req, res) => {
+    try {
+      const agents = await storage.listTravelAgents();
+      res.json(agents);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch travel agents" });
+    }
+  });
+
+  app.get("/api/travel-agents/search", async (req, res) => {
+    try {
+      const { country, minRating, specialty } = req.query;
+      const agents = await storage.searchTravelAgents({
+        country: country as string | undefined,
+        minRating: minRating ? Number(minRating) : undefined,
+        specialty: specialty as string | undefined,
+      });
+      res.json(agents);
+    } catch (error) {
+      res.status(500).json({ error: "Search failed" });
+    }
+  });
+
   // Visa endpoints
   app.get("/api/visas", async (req, res) => {
     try {

@@ -35,6 +35,14 @@ export default function Navigation() {
               >
                 Demo
               </Button>
+              <Button
+                variant="ghost"
+                className="text-sm"
+                onClick={() => setLocation("/marketplace")}
+                data-testid="button-marketplace"
+              >
+                Agents
+              </Button>
               <a href="#features" className="text-sm font-medium hover:text-primary transition-colors">
                 Features
               </a>
@@ -43,9 +51,6 @@ export default function Navigation() {
               </a>
               <a href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">
                 Pricing
-              </a>
-              <a href="#countries" className="text-sm font-medium hover:text-primary transition-colors">
-                Countries
               </a>
             </div>
           </div>
