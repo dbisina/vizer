@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { AnimatedButton } from "@/components/ui/animated-button";
 import LoadingState from "@/components/LoadingState";
 import { Sparkles, FileText, CheckCircle } from "lucide-react";
 
@@ -54,15 +53,15 @@ export default function AIProcessing() {
                 </div>
               </div>
             </div>
-            <AnimatedButton 
+            <Button 
               className="w-full justify-center text-base"
               onClick={startProcess}
               data-testid="button-start-ai-process"
-              accentColor="bg-primary"
+             
             >
               <Sparkles className="w-4 h-4 mr-2" />
               Generate My Documents
-            </AnimatedButton>
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -130,12 +129,12 @@ export default function AIProcessing() {
             </div>
           </div>
           <div className="flex gap-3">
-            <AnimatedButton className="flex-1 justify-center" onClick={reset} data-testid="button-try-again" accentColor="bg-primary">
+            <Button className="flex-1 justify-center" onClick={reset} data-testid="button-try-again">
               Try Again
-            </AnimatedButton>
-            <AnimatedButton className="flex-1 justify-center" data-testid="button-review-documents" accentColor="bg-primary">
+            </Button>
+            <Button className="flex-1 justify-center" data-testid="button-review-documents">
               Review Documents
-            </AnimatedButton>
+            </Button>
           </div>
         </CardContent>
       </Card>

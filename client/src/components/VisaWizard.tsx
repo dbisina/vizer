@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { AnimatedButton } from "@/components/ui/animated-button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -282,34 +281,34 @@ export default function VisaWizard() {
           </CardContent>
 
           <CardFooter className="flex justify-between">
-            <AnimatedButton
+            <Button
               onClick={handleBack}
               disabled={currentStep === 1}
               data-testid="button-back"
-              accentColor="bg-primary"
+             
             >
               Back
-            </AnimatedButton>
+            </Button>
             {currentStep < steps.length ? (
-              <AnimatedButton
+              <Button
                 onClick={handleNext}
                 disabled={!isStepValid()}
                 data-testid="button-next"
-                accentColor="bg-primary"
+               
               >
                 Next
-              </AnimatedButton>
+              </Button>
             ) : (
-              <AnimatedButton
+              <Button
                 onClick={() => {
                   // Handle final submission
                   console.log("Application submitted", formData);
                 }}
                 data-testid="button-submit"
-                accentColor="bg-primary"
+               
               >
                 Start Application
-              </AnimatedButton>
+              </Button>
             )}
           </CardFooter>
         </Card>

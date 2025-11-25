@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Globe, Bell } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { AnimatedButton } from "@/components/ui/animated-button";
 
 export default function Navigation() {
   const [, setLocation] = useLocation();
@@ -67,13 +66,12 @@ export default function Navigation() {
             >
               Log In
             </Button>
-            <AnimatedButton
+            <Button
               data-testid="button-signup"
               onClick={() => setLocation("/auth")}
-              accentColor="bg-primary"
             >
               Sign Up Free
-            </AnimatedButton>
+            </Button>
           </div>
         </div>
       </div>

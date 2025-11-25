@@ -8,7 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle, Sparkles, FileText, ExternalLink, AlertCircle } from "lucide-react";
-import { AnimatedButton } from "@/components/ui/animated-button";
 import DownloadButton from "@/components/ui/button-download";
 import { getEducationRequirements, languageTestInfo } from "@/utils/educationRequirements";
 import type { Visa } from "@shared/schema";
@@ -410,32 +409,32 @@ export default function VisaAdvisor() {
               </CardContent>
 
               <CardFooter className="flex justify-between">
-                <AnimatedButton
+                <Button
                   onClick={handleBack}
                   disabled={currentStep === 1}
                   data-testid="button-back"
-                  accentColor="bg-primary"
+                 
                 >
                   Back
-                </AnimatedButton>
+                </Button>
                 {currentStep < steps.length ? (
-                  <AnimatedButton
+                  <Button
                     onClick={handleNext}
                     disabled={!isStepValid()}
                     data-testid="button-next"
-                    accentColor="bg-primary"
+                   
                   >
                     Next
-                  </AnimatedButton>
+                  </Button>
                 ) : (
-                  <AnimatedButton
+                  <Button
                     onClick={handleNext}
                     data-testid="button-get-documents"
-                    accentColor="bg-primary"
+                   
                   >
                     Get My Documents
                     <Sparkles className="w-4 h-4 ml-2" />
-                  </AnimatedButton>
+                  </Button>
                 )}
               </CardFooter>
             </Card>
@@ -490,29 +489,29 @@ export default function VisaAdvisor() {
                   All documents are prepared. Next, we'll guide you through form-filling with AI-powered explanations for each section.
                 </p>
                 {recommendedVisas[0] && (
-                  <AnimatedButton className="w-full justify-center" data-testid="button-go-to-portal" accentColor="bg-primary">
+                  <Button className="w-full justify-center" data-testid="button-go-to-portal">
                     <ExternalLink className="w-4 h-4 mr-2" />
                     Go to Official Application Portal
-                  </AnimatedButton>
+                  </Button>
                 )}
               </div>
             </Card>
 
             <div className="flex gap-3">
-              <AnimatedButton
+              <Button
                 onClick={() => setShowGeneration(false)}
                 data-testid="button-back-to-advisor"
-                accentColor="bg-primary"
+               
               >
                 Back to Advisor
-              </AnimatedButton>
-              <AnimatedButton
+              </Button>
+              <Button
                 onClick={() => window.location.href = "/"}
                 data-testid="button-home"
-                accentColor="bg-primary"
+               
               >
                 Home
-              </AnimatedButton>
+              </Button>
             </div>
           </div>
         )}

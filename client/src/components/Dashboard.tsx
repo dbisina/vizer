@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AnimatedButton } from "@/components/ui/animated-button";
+import { Button } from "@/components/ui/button";
 import { ButtonHoldAndRelease } from "@/components/ui/hold-and-release-button";
 import DownloadButton from "@/components/ui/button-download";
-import { Button } from "@/components/ui/button";
 import { FileText, Eye, Plus } from "lucide-react";
 
 const mockDocuments = [
@@ -98,10 +97,10 @@ export default function Dashboard() {
               Download AI-generated documents for your visa applications
             </p>
           </div>
-          <AnimatedButton data-testid="button-new-advisor" accentColor="bg-primary">
+          <Button data-testid="button-new-advisor">
             <Plus className="w-4 h-4 mr-2" />
             New Application
-          </AnimatedButton>
+          </Button>
         </div>
 
         {/* Documents Grid */}
@@ -127,14 +126,14 @@ export default function Dashboard() {
                     Generated on {new Date(doc.generatedAt).toLocaleDateString()}
                   </div>
                   <div className="flex gap-2">
-                    <AnimatedButton
+                    <Button
                       className="flex-1 text-xs px-2 py-1.5 justify-center"
                       data-testid={`button-preview-${doc.id}`}
-                      accentColor="bg-primary"
+                     
                     >
                       <Eye className="w-3 h-3 mr-1" />
                       Preview
-                    </AnimatedButton>
+                    </Button>
                     <DownloadButton
                       downloadStatus={downloadStates[doc.id]?.status || "idle"}
                       progress={downloadStates[doc.id]?.progress || 0}
@@ -161,9 +160,9 @@ export default function Dashboard() {
                   Run the Visa Advisor to generate personalized documents
                 </p>
               </div>
-              <AnimatedButton data-testid="button-start-advisor" accentColor="bg-primary">
+              <Button data-testid="button-start-advisor">
                 Start Visa Advisor
-              </AnimatedButton>
+              </Button>
             </div>
           </Card>
         )}
