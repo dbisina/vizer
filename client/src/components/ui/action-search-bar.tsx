@@ -277,5 +277,3 @@ export function ActionSearchBar({ actions = allActions }: { actions?: Action[] }
         </div>
     );
 }
-
-export type { Action };

@@ -32,7 +32,8 @@ Preferred communication style: Simple, everyday language.
 - **Pages**: Landing, Auth, Wizard (Visa Advisor), Dashboard, Marketplace, Demo Hub
 - **Core Components**: Navigation, Hero, Features, Testimonials, Pricing, CTA, Footer
 - **Interactive Wizards**: Multi-step visa recommendation and document generation flows
-- **Specialized Components**: AI Processing states, Form Guides, Timeline visualizations
+- **Specialized Components**: AI Processing states, Form Guides, Timeline visualizations, Travel Agent Marketplace
+- **Chat & Search Components**: ActionSearchBar for global search, ChatInput for AI interactions
 
 **Key Features**
 - AI-powered visa recommendation wizard with progressive disclosure
@@ -118,6 +119,12 @@ Preferred communication style: Simple, everyday language.
 - **Shadcn/ui**: Pre-styled component system built on Radix
 - **Framer Motion**: Animation library for transitions and interactive elements
 - **Lucide React**: Icon library for consistent iconography
+
+### Recently Added Components (Nov 25, 2025)
+- **Travel Agent Marketplace**: Full-featured search and filtering by country, specialties, ratings
+- **ActionSearchBar**: Global search component with command palette functionality
+- **ChatInput**: Reusable AI chat component with textarea auto-resize and send functionality
+- **useTextareaResize Hook**: Auto-resizing textarea for chat and message inputs
 
 ### Database & Backend Services
 - **Neon Database**: Serverless PostgreSQL provider
