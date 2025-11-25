@@ -27,6 +27,14 @@ export default function Navigation() {
             </div>
             
             <div className="hidden md:flex items-center gap-6">
+              <Button
+                variant="ghost"
+                className="text-sm"
+                onClick={() => setLocation("/demo")}
+                data-testid="button-demo"
+              >
+                Demo
+              </Button>
               <a href="#features" className="text-sm font-medium hover:text-primary transition-colors">
                 Features
               </a>
