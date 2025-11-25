@@ -1,10 +1,11 @@
-import { type User, type InsertUser, type Visa, type InsertVisa, type Document, type InsertDocument, type Advisory, type InsertAdvisory, type TravelAgent, type InsertTravelAgent } from "@shared/schema";
+import { type User, type InsertUser, type UpdateUser, type Visa, type InsertVisa, type Document, type InsertDocument, type Advisory, type InsertAdvisory, type TravelAgent, type InsertTravelAgent } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUser(id: string, user: UpdateUser): Promise<User>;
   
   getVisa(id: string): Promise<Visa | undefined>;
   listVisas(): Promise<Visa[]>;
@@ -54,9 +55,19 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = randomUUID();
-    const user: User = { ...insertUser, id };
+    const user: User = { ...insertUser, id } as User;
     this.users.set(id, user);
     return user;
+  }
+
+  async updateUser(id: string, updates: UpdateUser): Promise<User> {
+    const user = this.users.get(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const updatedUser = { ...user, ...updates };
+    this.users.set(id, updatedUser);
+    return updatedUser;
   }
 
   async getVisa(id: string): Promise<Visa | undefined> {

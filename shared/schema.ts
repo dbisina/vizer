@@ -7,6 +7,12 @@ export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
+  email: text("email"),
+  firstName: text("first_name"),
+  lastName: text("last_name"),
+  country: text("country"),
+  phone: text("phone"),
+  profileImage: text("profile_image"),
 });
 
 export const visas = pgTable("visas", {
@@ -84,6 +90,15 @@ export const insertUserSchema = createInsertSchema(users).pick({
   password: true,
 });
 
+export const updateUserSchema = createInsertSchema(users).pick({
+  email: true,
+  firstName: true,
+  lastName: true,
+  country: true,
+  phone: true,
+  profileImage: true,
+}).partial();
+
 export const insertVisaSchema = createInsertSchema(visas).omit({
   id: true,
 });
@@ -101,6 +116,7 @@ export const insertTravelAgentSchema = createInsertSchema(travelAgents).omit({
 });
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
+export type UpdateUser = z.infer<typeof updateUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertVisa = z.infer<typeof insertVisaSchema>;
 export type Visa = typeof visas.$inferSelect;

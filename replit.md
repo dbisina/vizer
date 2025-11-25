@@ -29,17 +29,20 @@ Preferred communication style: Simple, everyday language.
 - Component library: Extensive set of pre-built UI components in `client/src/components/ui/`
 
 **Application Structure**
-- **Pages**: Landing, Auth, Wizard (Visa Advisor), Dashboard, Marketplace, Demo Hub
+- **Pages**: Landing, Auth, Wizard (Visa Advisor), Dashboard, Marketplace, Profile, Demo Hub
 - **Core Components**: Navigation, Hero, Features, Testimonials, Pricing, CTA, Footer
 - **Interactive Wizards**: Multi-step visa recommendation and document generation flows
 - **Specialized Components**: AI Processing states, Form Guides, Timeline visualizations, Travel Agent Marketplace
 - **Chat & Search Components**: ActionSearchBar for global search, ChatInput for AI interactions
+- **User Profile**: Full-featured profile page for viewing and editing user information
 
 **Key Features**
+- User profile management with edit capability
 - AI-powered visa recommendation wizard with progressive disclosure
 - Real-time form validation with react-hook-form and Zod schemas
 - Responsive design with mobile-first approach
 - Animated UI elements for enhanced user experience (container scroll, timelines, testimonials)
+- Travel Agent Marketplace with search and filtering capabilities
 
 ### Backend Architecture
 
@@ -61,7 +64,7 @@ Preferred communication style: Simple, everyday language.
 - **Storage Abstraction**: `IStorage` interface allows for pluggable storage implementations
 - **Current Implementation**: In-memory storage (`MemStorage`) for rapid prototyping
 - **Database Schema**: Defined in `shared/schema.ts` using Drizzle ORM
-  - Users: Authentication and profile data
+  - Users: Authentication and profile data (username, password, email, firstName, lastName, country, phone, profileImage)
   - Visas: Country-specific visa types with requirements, costs, processing times
   - Documents: AI-generated documents (cover letters, sponsorship letters, form guides)
   - Advisory Responses: User visa consultation records
@@ -102,15 +105,18 @@ Preferred communication style: Simple, everyday language.
 
 **Current Implementation**
 - Basic user registration and login structure in place
-- User model with username/password fields
+- User model with username/password and extended profile fields
+- Profile edit functionality with real-time validation
 - Session-based authentication ready for implementation
 - Connect-pg-simple package included for PostgreSQL session storage
+- User ID stored in localStorage after login for session management
 
 **Security Considerations**
 - Password hashing not yet implemented (needs bcrypt or similar)
+- Profile updates validated via updateUserSchema (Zod)
 - HTTPS enforcement in production environment
 - CORS configuration for API security
-- Input validation via Zod schemas
+- Input validation via Zod schemas for all user inputs
 
 ## External Dependencies
 
@@ -125,6 +131,8 @@ Preferred communication style: Simple, everyday language.
 - **ActionSearchBar**: Global search component with command palette functionality
 - **ChatInput**: Reusable AI chat component with textarea auto-resize and send functionality
 - **useTextareaResize Hook**: Auto-resizing textarea for chat and message inputs
+- **Profile Page**: User profile management page with view/edit functionality, avatar display, and profile information updates
+- **User Profile API**: Endpoints for getting and updating user profile information via `/api/user/:id`
 
 ### Database & Backend Services
 - **Neon Database**: Serverless PostgreSQL provider

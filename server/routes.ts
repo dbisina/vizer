@@ -1,9 +1,32 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertAdvisorySchema, insertDocumentSchema } from "@shared/schema";
+import { insertAdvisorySchema, insertDocumentSchema, updateUserSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // User endpoints
+  app.get("/api/user/:id", async (req, res) => {
+    try {
+      const user = await storage.getUser(req.params.id);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch user" });
+    }
+  });
+
+  app.patch("/api/user/:id", async (req, res) => {
+    try {
+      const parsed = updateUserSchema.parse(req.body);
+      const user = await storage.updateUser(req.params.id, parsed);
+      res.json(user);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  });
+
   // Travel Agents endpoints
   app.get("/api/travel-agents", async (req, res) => {
     try {
