@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Star, MapPin, Clock, DollarSign, Globe, Mail, Phone, Award } from "lucide-react";
 import AnimatedLoadingSkeleton from "@/components/ui/animated-loading-skeleton";
+import { ProfileCard } from "@/components/ui/profile-card";
 import type { TravelAgent } from "@shared/schema";
 
 const countries = ["Canada", "United States", "United Kingdom", "Germany", "Australia", "France", "Netherlands"];
@@ -110,139 +111,21 @@ export default function TravelAgentMarketplace() {
 
             {/* Agents Grid */}
             {filteredAgents.length > 0 ? (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredAgents.map(agent => (
-              <Card key={agent.id} className="hover-elevate transition-all flex flex-col overflow-hidden">
-                {/* Header with Image */}
-                <div className="h-32 bg-gradient-to-r from-primary to-primary/60 flex items-center justify-center">
-                  {agent.image && (
-                    <img 
-                      src={agent.image} 
-                      alt={agent.name}
-                      className="w-20 h-20 rounded-full border-4 border-white"
-                    />
-                  )}
-                </div>
-
-                <CardHeader className="pb-3">
-                  <div className="space-y-2">
-                    <CardTitle className="text-lg">{agent.name}</CardTitle>
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                        <span className="font-semibold">{agent.rating}</span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">({agent.reviewCount} reviews)</span>
-                    </div>
-                  </div>
-                </CardHeader>
-
-                <CardContent className="flex-1 space-y-4">
-                  {/* Description */}
-                  <p className="text-sm text-muted-foreground">{agent.description}</p>
-
-                  {/* Specialties */}
-                  <div>
-                    <p className="text-xs font-medium text-muted-foreground mb-2">Specialties</p>
-                    <div className="flex flex-wrap gap-1">
-                      {agent.specialties.slice(0, 3).map(spec => (
-                        <Badge key={spec} variant="secondary" className="text-xs">
-                          {spec}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Countries */}
-                  <div className="flex items-center gap-2 text-sm">
-                    <MapPin className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-                    <span className="text-muted-foreground">{agent.countries.join(", ")}</span>
-                  </div>
-
-                  {/* Key Info */}
-                  <div className="grid grid-cols-2 gap-2 text-sm border-t pt-3">
-                    <div>
-                      <div className="text-xs text-muted-foreground">Response Time</div>
-                      <div className="flex items-center gap-1 font-medium">
-                        <Clock className="w-3 h-3" />
-                        {agent.responseTime}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-muted-foreground">Price Range</div>
-                      <div className="flex items-center gap-1 font-medium">
-                        <DollarSign className="w-3 h-3" />
-                        {agent.priceRange}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-muted-foreground">Experience</div>
-                      <div className="font-medium">{agent.yearsExperience}+ years</div>
-                    </div>
-                    <div>
-                      <div className="text-xs text-muted-foreground">Success Rate</div>
-                      <div className="font-medium">{agent.successRate}%</div>
-                    </div>
-                  </div>
-
-                  {/* Certifications & Languages */}
-                  <div className="border-t pt-3 space-y-2">
-                    {agent.certifications && agent.certifications.length > 0 && (
-                      <div className="flex items-center gap-2 text-xs">
-                        <Award className="w-4 h-4 text-primary flex-shrink-0" />
-                        <span>{agent.certifications.join(", ")}</span>
-                      </div>
-                    )}
-                    {agent.languages && agent.languages.length > 0 && (
-                      <div className="flex items-center gap-2 text-xs">
-                        <Globe className="w-4 h-4 text-primary flex-shrink-0" />
-                        <span>{agent.languages.join(", ")}</span>
-                      </div>
-                    )}
-                  </div>
-                </CardContent>
-
-                {/* Footer with CTA */}
-                <div className="border-t p-4 space-y-2">
-                  <Button className="w-full justify-center" data-testid={`button-contact-${agent.id}`}>
-                    Contact Agent
-                  </Button>
-                  <div className="flex gap-2 text-xs">
-                    {agent.email && (
-                      <a 
-                        href={`mailto:${agent.email}`} 
-                        data-testid={`button-email-${agent.id}`}
-                        className="flex-1"
-                      >
-                        <Button
-                          className="flex-1 text-xs px-2 py-1.5 justify-center"
-                         
-                        >
-                          <Mail className="w-3 h-3 mr-1" />
-                          Email
-                        </Button>
-                      </a>
-                    )}
-                    {agent.phone && (
-                      <a 
-                        href={`tel:${agent.phone}`} 
-                        data-testid={`button-call-${agent.id}`}
-                        className="flex-1"
-                      >
-                        <Button
-                          className="flex-1 text-xs px-2 py-1.5 justify-center"
-                         
-                        >
-                          <Phone className="w-3 h-3 mr-1" />
-                          Call
-                        </Button>
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </Card>
-              ))}
-            </div>
+              <div className="flex flex-wrap justify-center gap-8">
+                {filteredAgents.map(agent => (
+                  <ProfileCard
+                    key={agent.id}
+                    name={agent.name}
+                    description={agent.description || ""}
+                    image={agent.image || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&h=800&fit=crop&auto=format&q=80"}
+                    isVerified={true}
+                    followers={Number(agent.rating) * 100}
+                    following={agent.reviewCount || 0}
+                    onFollow={() => console.log(`Contact ${agent.name}`)}
+                    isFollowing={false}
+                  />
+                ))}
+              </div>
           ) : (
             <Card className="p-12 text-center">
               <p className="text-muted-foreground mb-4">No agents match your search criteria</p>
