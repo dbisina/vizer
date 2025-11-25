@@ -54,12 +54,12 @@ export default function TravelAgentMarketplace() {
             </div>
             <div>
               <label className="text-sm font-medium mb-2 block">Country</label>
-              <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+              <Select value={selectedCountry || "all"} onValueChange={(v) => setSelectedCountry(v === "all" ? "" : v)}>
                 <SelectTrigger data-testid="select-country">
                   <SelectValue placeholder="All countries" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All countries</SelectItem>
+                  <SelectItem value="all">All countries</SelectItem>
                   {countries.map(country => (
                     <SelectItem key={country} value={country}>{country}</SelectItem>
                   ))}
@@ -68,12 +68,12 @@ export default function TravelAgentMarketplace() {
             </div>
             <div>
               <label className="text-sm font-medium mb-2 block">Specialty</label>
-              <Select value={selectedSpecialty} onValueChange={setSelectedSpecialty}>
+              <Select value={selectedSpecialty || "all"} onValueChange={(v) => setSelectedSpecialty(v === "all" ? "" : v)}>
                 <SelectTrigger data-testid="select-specialty">
                   <SelectValue placeholder="All specialties" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All specialties</SelectItem>
+                  <SelectItem value="all">All specialties</SelectItem>
                   {specialties.map(specialty => (
                     <SelectItem key={specialty} value={specialty}>{specialty}</SelectItem>
                   ))}
