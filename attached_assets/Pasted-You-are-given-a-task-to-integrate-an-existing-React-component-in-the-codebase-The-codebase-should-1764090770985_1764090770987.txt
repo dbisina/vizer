@@ -1,0 +1,209 @@
+You are given a task to integrate an existing React component in the codebase
+
+The codebase should support:
+- shadcn project structure  
+- Tailwind CSS
+- Typescript
+
+If it doesn't, provide instructions on how to setup project via shadcn CLI, install Tailwind or Typescript.
+
+Determine the default path for components and styles. 
+If default path for components is not /components/ui, provide instructions on why it's important to create this folder
+Copy-paste this component to /components/ui folder:
+```tsx
+particle-button.tsx
+"use client" 
+
+import * as React from "react"
+import { useState, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
+import type { ButtonProps } from "@/components/ui/button";
+import { MousePointerClick } from "lucide-react";
+
+interface ParticleButtonProps extends ButtonProps {
+    onSuccess?: () => void;
+    successDuration?: number;
+}
+
+function SuccessParticles({
+    buttonRef,
+}: {
+    buttonRef: React.RefObject<HTMLButtonElement>;
+}) {
+    const rect = buttonRef.current?.getBoundingClientRect();
+    if (!rect) return null;
+
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    return (
+        <AnimatePresence>
+            {[...Array(6)].map((_, i) => (
+                <motion.div
+                    key={i}
+                    className="fixed w-1 h-1 bg-black dark:bg-white rounded-full"
+                    style={{ left: centerX, top: centerY }}
+                    initial={{
+                        scale: 0,
+                        x: 0,
+                        y: 0,
+                    }}
+                    animate={{
+                        scale: [0, 1, 0],
+                        x: [0, (i % 2 ? 1 : -1) * (Math.random() * 50 + 20)],
+                        y: [0, -Math.random() * 50 - 20],
+                    }}
+                    transition={{
+                        duration: 0.6,
+                        delay: i * 0.1,
+                        ease: "easeOut",
+                    }}
+                />
+            ))}
+        </AnimatePresence>
+    );
+}
+
+function ParticleButton({
+    children,
+    onClick,
+    onSuccess,
+    successDuration = 1000,
+    className,
+    ...props
+}: ParticleButtonProps) {
+    const [showParticles, setShowParticles] = useState(false);
+    const buttonRef = useRef<HTMLButtonElement>(null);
+
+    const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        setShowParticles(true);
+
+        setTimeout(() => {
+            setShowParticles(false);
+        }, successDuration);
+    };
+
+    return (
+        <>
+            {showParticles && <SuccessParticles buttonRef={buttonRef} />}
+            <Button
+                ref={buttonRef}
+                onClick={handleClick}
+                className={cn(
+                    "relative",
+                    showParticles && "scale-95",
+                    "transition-transform duration-100",
+                    className
+                )}
+                {...props}
+            >
+                {children}
+                <MousePointerClick className="h-4 w-4" />
+            </Button>
+        </>
+    );
+}
+
+export { ParticleButton }
+
+demo.tsx
+import { ParticleButton } from "@/components/ui/particle-button"
+import { Button } from "@/components/ui/button"
+import { LucideIcon } from "lucide-react"
+
+function ParticleButtonDemo() {
+    return (
+        <ParticleButton successDuration={1000} variant="default">
+            Click me!
+        </ParticleButton>
+    )
+}
+
+export { ParticleButtonDemo }
+```
+
+Copy-paste these files for dependencies:
+```tsx
+shadcn/button
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline:
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  },
+)
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button"
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+Button.displayName = "Button"
+
+export { Button, buttonVariants }
+
+```
+
+Install NPM dependencies:
+```bash
+lucide-react, framer-motion, @radix-ui/react-slot, class-variance-authority
+```
+
+Implementation Guidelines
+ 1. Analyze the component structure and identify all required dependencies
+ 2. Review the component's argumens and state
+ 3. Identify any required context providers or hooks and install them
+ 4. Questions to Ask
+ - What data/props will be passed to this component?
+ - Are there any specific state management requirements?
+ - Are there any required assets (images, icons, etc.)?
+ - What is the expected responsive behavior?
+ - What is the best place to use this component in the app?
+
+Steps to integrate
+ 0. Copy paste all the code above in the correct directories
+ 1. Install external dependencies
+ 2. Fill image assets with Unsplash stock images you know exist
+ 3. Use lucide-react icons for svgs or logos if component requires them

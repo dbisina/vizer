@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AnimatedButton } from "@/components/ui/animated-button";
 import { ButtonHoldAndRelease } from "@/components/ui/hold-and-release-button";
+import DownloadButton from "@/components/ui/button-download";
 import { Button } from "@/components/ui/button";
-import { FileText, Download, Eye, Plus } from "lucide-react";
+import { FileText, Eye, Plus } from "lucide-react";
 
 const mockDocuments = [
   {
@@ -36,6 +38,55 @@ const mockDocuments = [
 ];
 
 export default function Dashboard() {
+  const [downloadStates, setDownloadStates] = useState<{
+    [key: string]: { status: "idle" | "downloading" | "downloaded" | "complete"; progress: number }
+  }>({});
+
+  const handleDownload = (docId: string) => {
+    if (downloadStates[docId]?.status !== "idle" && downloadStates[docId]) return;
+
+    setDownloadStates(prev => ({
+      ...prev,
+      [docId]: { status: "downloading", progress: 0 }
+    }));
+
+    const interval = setInterval(() => {
+      setDownloadStates(prev => {
+        const current = prev[docId];
+        if (!current) {
+          clearInterval(interval);
+          return prev;
+        }
+
+        const newProgress = current.progress + 5;
+        if (newProgress >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setDownloadStates(p => ({
+              ...p,
+              [docId]: { status: "complete", progress: 100 }
+            }));
+            setTimeout(() => {
+              setDownloadStates(p => ({
+                ...p,
+                [docId]: { status: "idle", progress: 0 }
+              }));
+            }, 1500);
+          }, 500);
+          return {
+            ...prev,
+            [docId]: { status: "downloaded", progress: 100 }
+          };
+        }
+
+        return {
+          ...prev,
+          [docId]: { status: "downloading", progress: newProgress }
+        };
+      });
+    }, 200);
+  };
+
   return (
     <div className="min-h-screen bg-muted/30 py-12">
       <div className="max-w-6xl mx-auto px-6 space-y-8">
@@ -84,14 +135,13 @@ export default function Dashboard() {
                       <Eye className="w-3 h-3 mr-1" />
                       Preview
                     </AnimatedButton>
-                    <AnimatedButton
+                    <DownloadButton
+                      downloadStatus={downloadStates[doc.id]?.status || "idle"}
+                      progress={downloadStates[doc.id]?.progress || 0}
+                      onClick={() => handleDownload(doc.id)}
                       className="flex-1 text-xs px-2 py-1.5 justify-center"
                       data-testid={`button-download-${doc.id}`}
-                      accentColor="bg-primary"
-                    >
-                      <Download className="w-3 h-3 mr-1" />
-                      Download
-                    </AnimatedButton>
+                    />
                     <ButtonHoldAndRelease
                       data-testid={`button-delete-${doc.id}`}
                       onConfirm={() => console.log(`Delete document ${doc.id}`)}

@@ -9,6 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
 import { CheckCircle, Sparkles, FileText, ExternalLink, AlertCircle } from "lucide-react";
 import { AnimatedButton } from "@/components/ui/animated-button";
+import DownloadButton from "@/components/ui/button-download";
 import { getEducationRequirements, languageTestInfo } from "@/utils/educationRequirements";
 import type { Visa } from "@shared/schema";
 
@@ -28,6 +29,9 @@ export default function VisaAdvisor() {
   const [currentStep, setCurrentStep] = useState(1);
   const [recommendedVisas, setRecommendedVisas] = useState<Visa[]>([]);
   const [showGeneration, setShowGeneration] = useState(false);
+  const [downloadStates, setDownloadStates] = useState<{
+    [key: number]: { status: "idle" | "downloading" | "downloaded" | "complete"; progress: number }
+  }>({});
   
   const [formData, setFormData] = useState({
     yourCountry: "",
@@ -63,6 +67,51 @@ export default function VisaAdvisor() {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
+  };
+
+  const handleDownload = (docIdx: number) => {
+    if (downloadStates[docIdx]?.status !== "idle" && downloadStates[docIdx]) return;
+
+    setDownloadStates(prev => ({
+      ...prev,
+      [docIdx]: { status: "downloading", progress: 0 }
+    }));
+
+    const interval = setInterval(() => {
+      setDownloadStates(prev => {
+        const current = prev[docIdx];
+        if (!current) {
+          clearInterval(interval);
+          return prev;
+        }
+
+        const newProgress = current.progress + 5;
+        if (newProgress >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setDownloadStates(p => ({
+              ...p,
+              [docIdx]: { status: "complete", progress: 100 }
+            }));
+            setTimeout(() => {
+              setDownloadStates(p => ({
+                ...p,
+                [docIdx]: { status: "idle", progress: 0 }
+              }));
+            }, 1500);
+          }, 500);
+          return {
+            ...prev,
+            [docIdx]: { status: "downloaded", progress: 100 }
+          };
+        }
+
+        return {
+          ...prev,
+          [docIdx]: { status: "downloading", progress: newProgress }
+        };
+      });
+    }, 200);
   };
 
   const isStepValid = () => {
@@ -422,9 +471,13 @@ export default function VisaAdvisor() {
                         <p className="text-xs text-muted-foreground">{doc.desc}</p>
                       </div>
                     </div>
-                    <AnimatedButton className="text-sm px-3 py-1.5" accentColor="bg-primary" data-testid={`button-download-${idx}`}>
-                      Download
-                    </AnimatedButton>
+                    <DownloadButton
+                      downloadStatus={downloadStates[idx]?.status || "idle"}
+                      progress={downloadStates[idx]?.progress || 0}
+                      onClick={() => handleDownload(idx)}
+                      className="text-sm px-3 py-1.5"
+                      data-testid={`button-download-${idx}`}
+                    />
                   </div>
                 </Card>
               ))}
