@@ -1,6 +1,5 @@
 import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {
   Globe,
   LogIn,
@@ -10,7 +9,7 @@ import {
   Home,
   Users,
 } from "lucide-react";
-import { GetStartedButton } from "@/components/ui/get-started-button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 
 const sections = [
   {
@@ -95,13 +94,14 @@ export default function DemoHub() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <p className="text-sm text-muted-foreground">{section.description}</p>
-                  <div data-testid={`button-explore-${section.id}`} className="w-full">
-                    <GetStartedButton 
-                      text="Explore"
-                      onClick={() => setLocation(section.path)}
-                      className="w-full"
-                    />
-                  </div>
+                  <AnimatedButton 
+                    data-testid={`button-explore-${section.id}`}
+                    onClick={() => setLocation(section.path)}
+                    className="w-full justify-center"
+                    accentColor="bg-primary"
+                  >
+                    Explore
+                  </AnimatedButton>
                 </CardContent>
               </Card>
             );
@@ -139,12 +139,13 @@ export default function DemoHub() {
           <p className="text-muted-foreground mb-4">
             Ready to start your visa journey?
           </p>
-          <div data-testid="button-start-advisor">
-            <GetStartedButton
-              text="Start Visa Advisor"
-              onClick={() => setLocation("/wizard")}
-            />
-          </div>
+          <AnimatedButton
+            data-testid="button-start-advisor"
+            onClick={() => setLocation("/wizard")}
+            accentColor="bg-primary"
+          >
+            Start Visa Advisor
+          </AnimatedButton>
         </div>
       </div>
     </div>

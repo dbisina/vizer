@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, Sparkles, FileText, ArrowRight, ExternalLink, AlertCircle } from "lucide-react";
+import { CheckCircle, Sparkles, FileText, ExternalLink, AlertCircle } from "lucide-react";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { getEducationRequirements, languageTestInfo } from "@/utils/educationRequirements";
 import type { Visa } from "@shared/schema";
 
@@ -360,30 +361,32 @@ export default function VisaAdvisor() {
               </CardContent>
 
               <CardFooter className="flex justify-between">
-                <Button
-                  variant="outline"
+                <AnimatedButton
                   onClick={handleBack}
                   disabled={currentStep === 1}
                   data-testid="button-back"
+                  accentColor="bg-primary"
                 >
                   Back
-                </Button>
+                </AnimatedButton>
                 {currentStep < steps.length ? (
-                  <Button
+                  <AnimatedButton
                     onClick={handleNext}
                     disabled={!isStepValid()}
                     data-testid="button-next"
+                    accentColor="bg-primary"
                   >
                     Next
-                  </Button>
+                  </AnimatedButton>
                 ) : (
-                  <Button
+                  <AnimatedButton
                     onClick={handleNext}
                     data-testid="button-get-documents"
+                    accentColor="bg-primary"
                   >
                     Get My Documents
                     <Sparkles className="w-4 h-4 ml-2" />
-                  </Button>
+                  </AnimatedButton>
                 )}
               </CardFooter>
             </Card>
@@ -419,10 +422,9 @@ export default function VisaAdvisor() {
                         <p className="text-xs text-muted-foreground">{doc.desc}</p>
                       </div>
                     </div>
-                    <Button size="sm" variant="ghost" data-testid={`button-download-${idx}`}>
+                    <AnimatedButton className="text-sm px-3 py-1.5" accentColor="bg-primary" data-testid={`button-download-${idx}`}>
                       Download
-                      <ArrowRight className="w-4 h-4 ml-1" />
-                    </Button>
+                    </AnimatedButton>
                   </div>
                 </Card>
               ))}
@@ -435,29 +437,29 @@ export default function VisaAdvisor() {
                   All documents are prepared. Next, we'll guide you through form-filling with AI-powered explanations for each section.
                 </p>
                 {recommendedVisas[0] && (
-                  <Button className="w-full" data-testid="button-go-to-portal">
+                  <AnimatedButton className="w-full justify-center" data-testid="button-go-to-portal" accentColor="bg-primary">
                     <ExternalLink className="w-4 h-4 mr-2" />
                     Go to Official Application Portal
-                  </Button>
+                  </AnimatedButton>
                 )}
               </div>
             </Card>
 
             <div className="flex gap-3">
-              <Button
-                variant="outline"
+              <AnimatedButton
                 onClick={() => setShowGeneration(false)}
                 data-testid="button-back-to-advisor"
+                accentColor="bg-primary"
               >
                 Back to Advisor
-              </Button>
-              <Button
+              </AnimatedButton>
+              <AnimatedButton
                 onClick={() => window.location.href = "/"}
-                variant="ghost"
                 data-testid="button-home"
+                accentColor="bg-primary"
               >
                 Home
-              </Button>
+              </AnimatedButton>
             </div>
           </div>
         )}

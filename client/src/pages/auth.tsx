@@ -1,7 +1,7 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import { ImageSlider } from "@/components/ui/image-slider";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Chrome, Apple } from "lucide-react";
@@ -74,14 +74,14 @@ export default function AuthPage() {
             </motion.p>
 
             <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <Button variant="outline" data-testid="button-google-auth">
+              <AnimatedButton data-testid="button-google-auth" accentColor="bg-primary">
                 <Chrome className="mr-2 h-4 w-4" />
                 Google
-              </Button>
-              <Button variant="outline" data-testid="button-apple-auth">
+              </AnimatedButton>
+              <AnimatedButton data-testid="button-apple-auth" accentColor="bg-primary">
                 <Apple className="mr-2 h-4 w-4" />
                 Apple
-              </Button>
+              </AnimatedButton>
             </motion.div>
 
             <motion.div variants={itemVariants} className="relative mb-6">
@@ -155,13 +155,14 @@ export default function AuthPage() {
                   />
                 </div>
               )}
-              <Button
+              <AnimatedButton
                 type="submit"
-                className="w-full"
+                className="w-full justify-center"
                 data-testid={isSignUp ? "button-signup-submit" : "button-login-submit"}
+                accentColor="bg-primary"
               >
                 {isSignUp ? "Create Account" : "Log In"}
-              </Button>
+              </AnimatedButton>
             </motion.form>
 
             <motion.p variants={itemVariants} className="text-center text-sm text-muted-foreground mt-8">

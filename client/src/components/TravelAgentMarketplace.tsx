@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -198,35 +199,39 @@ export default function TravelAgentMarketplace() {
 
                 {/* Footer with CTA */}
                 <div className="border-t p-4 space-y-2">
-                  <Button className="w-full" data-testid={`button-contact-${agent.id}`}>
+                  <AnimatedButton className="w-full justify-center" accentColor="bg-primary" data-testid={`button-contact-${agent.id}`}>
                     Contact Agent
-                  </Button>
+                  </AnimatedButton>
                   <div className="flex gap-2 text-xs">
                     {agent.email && (
-                      <Button
-                        size="sm"
-                        variant="ghost"
+                      <a 
+                        href={`mailto:${agent.email}`} 
+                        data-testid={`button-email-${agent.id}`}
                         className="flex-1"
-                        asChild
                       >
-                        <a href={`mailto:${agent.email}`} data-testid={`button-email-${agent.id}`}>
+                        <AnimatedButton
+                          className="flex-1 text-xs px-2 py-1.5 justify-center"
+                          accentColor="bg-primary"
+                        >
                           <Mail className="w-3 h-3 mr-1" />
                           Email
-                        </a>
-                      </Button>
+                        </AnimatedButton>
+                      </a>
                     )}
                     {agent.phone && (
-                      <Button
-                        size="sm"
-                        variant="ghost"
+                      <a 
+                        href={`tel:${agent.phone}`} 
+                        data-testid={`button-call-${agent.id}`}
                         className="flex-1"
-                        asChild
                       >
-                        <a href={`tel:${agent.phone}`} data-testid={`button-call-${agent.id}`}>
+                        <AnimatedButton
+                          className="flex-1 text-xs px-2 py-1.5 justify-center"
+                          accentColor="bg-primary"
+                        >
                           <Phone className="w-3 h-3 mr-1" />
                           Call
-                        </a>
-                      </Button>
+                        </AnimatedButton>
+                      </a>
                     )}
                   </div>
                 </div>
@@ -236,8 +241,7 @@ export default function TravelAgentMarketplace() {
         ) : (
           <Card className="p-12 text-center">
             <p className="text-muted-foreground mb-4">No agents match your search criteria</p>
-            <Button
-              variant="outline"
+            <AnimatedButton
               onClick={() => {
                 setSelectedCountry("");
                 setSelectedSpecialty("");
@@ -245,9 +249,10 @@ export default function TravelAgentMarketplace() {
                 setSearchQuery("");
               }}
               data-testid="button-reset-filters"
+              accentColor="bg-primary"
             >
               Reset Filters
-            </Button>
+            </AnimatedButton>
           </Card>
         )}
 

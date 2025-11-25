@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
@@ -119,13 +119,13 @@ export default function Pricing() {
               </CardContent>
               
               <CardFooter>
-                <Button 
-                  className="w-full"
-                  variant={plan.popular ? "default" : "outline"}
+                <AnimatedButton 
+                  className="w-full justify-center"
                   data-testid={`button-${plan.name.toLowerCase()}-cta`}
+                  accentColor="bg-primary"
                 >
                   {plan.cta}
-                </Button>
+                </AnimatedButton>
               </CardFooter>
             </Card>
           ))}

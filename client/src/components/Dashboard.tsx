@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AnimatedButton } from "@/components/ui/animated-button";
 import { Button } from "@/components/ui/button";
 import { FileText, Download, Eye, Trash2, Plus } from "lucide-react";
 
@@ -45,10 +46,10 @@ export default function Dashboard() {
               Download AI-generated documents for your visa applications
             </p>
           </div>
-          <Button data-testid="button-new-advisor">
+          <AnimatedButton data-testid="button-new-advisor" accentColor="bg-primary">
             <Plus className="w-4 h-4 mr-2" />
             New Application
-          </Button>
+          </AnimatedButton>
         </div>
 
         {/* Documents Grid */}
@@ -74,23 +75,22 @@ export default function Dashboard() {
                     Generated on {new Date(doc.generatedAt).toLocaleDateString()}
                   </div>
                   <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="flex-1"
+                    <AnimatedButton
+                      className="flex-1 text-xs px-2 py-1.5 justify-center"
                       data-testid={`button-preview-${doc.id}`}
+                      accentColor="bg-primary"
                     >
                       <Eye className="w-3 h-3 mr-1" />
                       Preview
-                    </Button>
-                    <Button
-                      size="sm"
-                      className="flex-1"
+                    </AnimatedButton>
+                    <AnimatedButton
+                      className="flex-1 text-xs px-2 py-1.5 justify-center"
                       data-testid={`button-download-${doc.id}`}
+                      accentColor="bg-primary"
                     >
                       <Download className="w-3 h-3 mr-1" />
                       Download
-                    </Button>
+                    </AnimatedButton>
                     <Button
                       size="sm"
                       variant="ghost"
@@ -113,9 +113,9 @@ export default function Dashboard() {
                   Run the Visa Advisor to generate personalized documents
                 </p>
               </div>
-              <Button data-testid="button-start-advisor">
+              <AnimatedButton data-testid="button-start-advisor" accentColor="bg-primary">
                 Start Visa Advisor
-              </Button>
+              </AnimatedButton>
             </div>
           </Card>
         )}

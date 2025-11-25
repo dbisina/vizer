@@ -1,5 +1,4 @@
-import { GetStartedButton } from "@/components/ui/get-started-button";
-import { Button } from "@/components/ui/button";
+import { AnimatedButton } from "@/components/ui/animated-button";
 
 export default function CTA() {
   return (
@@ -13,17 +12,18 @@ export default function CTA() {
           Start your free account today—no credit card required.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <div data-testid="button-cta-start-free">
-            <GetStartedButton text="Start Free Account" />
-          </div>
-          <Button 
-            size="lg" 
-            variant="outline"
-            className="bg-transparent border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 backdrop-blur-md"
+          <AnimatedButton 
+            data-testid="button-cta-start-free"
+            accentColor="bg-primary-foreground"
+          >
+            Start Free Account
+          </AnimatedButton>
+          <AnimatedButton 
             data-testid="button-cta-schedule-demo"
+            accentColor="bg-primary-foreground"
           >
             Schedule a Demo
-          </Button>
+          </AnimatedButton>
         </div>
         <p className="text-sm text-primary-foreground/70">
           Free forever • No credit card required • Cancel anytime
