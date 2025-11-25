@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AnimatedButton } from "@/components/ui/animated-button";
+import { ButtonHoldAndRelease } from "@/components/ui/hold-and-release-button";
 import { Button } from "@/components/ui/button";
-import { FileText, Download, Eye, Trash2, Plus } from "lucide-react";
+import { FileText, Download, Eye, Plus } from "lucide-react";
 
 const mockDocuments = [
   {
@@ -91,13 +92,10 @@ export default function Dashboard() {
                       <Download className="w-3 h-3 mr-1" />
                       Download
                     </AnimatedButton>
-                    <Button
-                      size="sm"
-                      variant="ghost"
+                    <ButtonHoldAndRelease
                       data-testid={`button-delete-${doc.id}`}
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </Button>
+                      onConfirm={() => console.log(`Delete document ${doc.id}`)}
+                    />
                   </div>
                 </CardContent>
               </Card>
