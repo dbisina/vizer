@@ -1,4 +1,4 @@
-import { AnimatedButton } from "@/components/ui/animated-button";
+import { ArrowButton } from "@/components/ui/arrow-button";
 
 export default function CTA() {
   return (
@@ -12,18 +12,16 @@ export default function CTA() {
           Start your free account today—no credit card required.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <AnimatedButton 
+          <ArrowButton 
             data-testid="button-cta-start-free"
-            accentColor="bg-primary-foreground"
           >
             Start Free Account
-          </AnimatedButton>
-          <AnimatedButton 
+          </ArrowButton>
+          <ArrowButton 
             data-testid="button-cta-schedule-demo"
-            accentColor="bg-primary-foreground"
           >
             Schedule a Demo
-          </AnimatedButton>
+          </ArrowButton>
         </div>
         <p className="text-sm text-primary-foreground/70">
           Free forever • No credit card required • Cancel anytime

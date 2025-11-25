@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Globe, Users, Zap } from "lucide-react";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
-import { AnimatedButton } from "@/components/ui/animated-button";
+import { ArrowButton } from "@/components/ui/arrow-button";
 import heroImage from "@assets/generated_images/hero_section_professionals_working.png";
 
 export default function Hero() {
@@ -30,20 +30,18 @@ export default function Hero() {
             </p>
             
             <div className="flex flex-wrap justify-center gap-4 pt-4">
-              <AnimatedButton 
+              <ArrowButton 
                 data-testid="button-get-started"
-                accentColor="bg-primary"
                 className="text-base"
               >
                 Get Started Free
-              </AnimatedButton>
-              <AnimatedButton 
+              </ArrowButton>
+              <ArrowButton 
                 data-testid="button-see-how-it-works"
-                accentColor="bg-primary"
                 className="text-base"
               >
                 See How It Works
-              </AnimatedButton>
+              </ArrowButton>
             </div>
             
             <div className="flex flex-wrap items-center justify-center gap-8 pt-8">
