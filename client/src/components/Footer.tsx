@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { ParticleButton } from "@/components/ui/particle-button";
 import { Input } from "@/components/ui/input";
 import { Globe, Twitter, Linkedin, Github } from "lucide-react";
 
@@ -120,7 +121,7 @@ export default function Footer() {
                 className="w-64"
                 data-testid="input-newsletter"
               />
-              <Button data-testid="button-subscribe">Subscribe</Button>
+              <ParticleButton data-testid="button-subscribe">Subscribe</ParticleButton>
             </div>
           </div>
         </div>
