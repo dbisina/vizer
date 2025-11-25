@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Star, MapPin, Clock, DollarSign, Globe, Mail, Phone, Award } from "lucide-react";
+import AnimatedLoadingSkeleton from "@/components/ui/animated-loading-skeleton";
 import type { TravelAgent } from "@shared/schema";
 
 const countries = ["Canada", "United States", "United Kingdom", "Germany", "Australia", "France", "Netherlands"];
@@ -17,7 +18,7 @@ export default function TravelAgentMarketplace() {
   const [minRating, setMinRating] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: agents = [] } = useQuery<TravelAgent[]>({
+  const { data: agents = [], isLoading } = useQuery<TravelAgent[]>({
     queryKey: ["/api/travel-agents"],
   });
 
@@ -97,14 +98,19 @@ export default function TravelAgentMarketplace() {
           </div>
         </Card>
 
-        {/* Results Count */}
-        <div className="text-muted-foreground">
-          Showing {filteredAgents.length} of {agents.length} agents
-        </div>
+        {/* Loading State */}
+        {isLoading ? (
+          <AnimatedLoadingSkeleton />
+        ) : (
+          <>
+            {/* Results Count */}
+            <div className="text-muted-foreground">
+              Showing {filteredAgents.length} of {agents.length} agents
+            </div>
 
-        {/* Agents Grid */}
-        {filteredAgents.length > 0 ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Agents Grid */}
+            {filteredAgents.length > 0 ? (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredAgents.map(agent => (
               <Card key={agent.id} className="hover-elevate transition-all flex flex-col overflow-hidden">
                 {/* Header with Image */}
@@ -235,24 +241,25 @@ export default function TravelAgentMarketplace() {
                   </div>
                 </div>
               </Card>
-            ))}
-          </div>
-        ) : (
-          <Card className="p-12 text-center">
-            <p className="text-muted-foreground mb-4">No agents match your search criteria</p>
-            <Button
-              onClick={() => {
-                setSelectedCountry("");
-                setSelectedSpecialty("");
-                setMinRating(0);
-                setSearchQuery("");
-              }}
-              data-testid="button-reset-filters"
-             
-            >
-              Reset Filters
-            </Button>
-          </Card>
+              ))}
+            </div>
+          ) : (
+            <Card className="p-12 text-center">
+              <p className="text-muted-foreground mb-4">No agents match your search criteria</p>
+              <Button
+                onClick={() => {
+                  setSelectedCountry("");
+                  setSelectedSpecialty("");
+                  setMinRating(0);
+                  setSearchQuery("");
+                }}
+                data-testid="button-reset-filters"
+              >
+                Reset Filters
+              </Button>
+            </Card>
+          )}
+          </>
         )}
 
         {/* Info Card */}
