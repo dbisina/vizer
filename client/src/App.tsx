@@ -7,12 +7,14 @@ import LandingPage from "@/pages/landing";
 import WizardPage from "@/pages/wizard";
 import DashboardPage from "@/pages/dashboard";
 import AIDemoPage from "@/pages/ai-demo";
+import AuthPage from "@/pages/auth";
 import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={LandingPage} />
+      <Route path="/auth" component={AuthPage} />
       <Route path="/wizard" component={WizardPage} />
       <Route path="/dashboard" component={DashboardPage} />
       <Route path="/ai-demo" component={AIDemoPage} />

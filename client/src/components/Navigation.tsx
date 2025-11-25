@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Globe, Bell, User } from "lucide-react";
+import { Globe, Bell } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useLocation } from "wouter";
 
 export default function Navigation() {
+  const [, setLocation] = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -44,10 +46,17 @@ export default function Navigation() {
             <Button size="icon" variant="ghost" data-testid="button-notifications">
               <Bell className="w-4 h-4" />
             </Button>
-            <Button variant="ghost" data-testid="button-login">
+            <Button
+              variant="ghost"
+              data-testid="button-login"
+              onClick={() => setLocation("/auth")}
+            >
               Log In
             </Button>
-            <Button data-testid="button-signup">
+            <Button
+              data-testid="button-signup"
+              onClick={() => setLocation("/auth")}
+            >
               Sign Up Free
             </Button>
           </div>
