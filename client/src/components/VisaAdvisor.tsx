@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, Sparkles, FileText, ArrowRight, ExternalLink } from "lucide-react";
+import { CheckCircle, Sparkles, FileText, ArrowRight, ExternalLink, AlertCircle } from "lucide-react";
+import { getEducationRequirements, languageTestInfo } from "@/utils/educationRequirements";
 import type { Visa } from "@shared/schema";
 
 const steps = [
@@ -254,6 +255,43 @@ export default function VisaAdvisor() {
                             data-testid="input-test-score"
                           />
                         </div>
+
+                        {/* Education Requirements Card */}
+                        {formData.destination && (() => {
+                          const reqs = getEducationRequirements(formData.destination);
+                          return reqs ? (
+                            <Card className="p-4 bg-primary/5 border-primary/20">
+                              <div className="flex gap-2 items-start mb-3">
+                                <AlertCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                                <div>
+                                  <h4 className="font-semibold text-sm">Requirements for {formData.destination}</h4>
+                                </div>
+                              </div>
+                              <div className="text-sm space-y-3 ml-7">
+                                <div>
+                                  <p className="font-medium text-muted-foreground text-xs">Language Tests Accepted</p>
+                                  <div className="flex flex-wrap gap-2 mt-1">
+                                    {reqs.languageTests.map((test) => (
+                                      <div key={test.name} className="text-xs bg-background px-2 py-1 rounded">
+                                        <span className="font-medium">{test.name}</span>: {test.minScore}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                                {reqs.topSchools && reqs.topSchools.length > 0 && (
+                                  <div>
+                                    <p className="font-medium text-muted-foreground text-xs">Popular Universities</p>
+                                    <ul className="text-xs mt-1 space-y-1">
+                                      {reqs.topSchools.slice(0, 3).map((school) => (
+                                        <li key={school}>• {school}</li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                              </div>
+                            </Card>
+                          ) : null;
+                        })()}
                       </>
                     )}
                     {formData.purpose !== "Study" && (
