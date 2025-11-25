@@ -1,4 +1,4 @@
-import { ArrowButton } from "@/components/ui/arrow-button";
+import { Button } from "@/components/ui/button";
 
 export default function CTA() {
   return (
@@ -12,16 +12,17 @@ export default function CTA() {
           Start your free account today—no credit card required.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <ArrowButton 
+          <Button 
             data-testid="button-cta-start-free"
           >
             Start Free Account
-          </ArrowButton>
-          <ArrowButton 
+          </Button>
+          <Button 
+            variant="outline"
             data-testid="button-cta-schedule-demo"
           >
             Schedule a Demo
-          </ArrowButton>
+          </Button>
         </div>
         <p className="text-sm text-primary-foreground/70">
           Free forever • No credit card required • Cancel anytime
