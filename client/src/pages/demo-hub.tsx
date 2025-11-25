@@ -8,9 +8,9 @@ import {
   BarChart3,
   Zap,
   Home,
-  ArrowRight,
   Users,
 } from "lucide-react";
+import { GetStartedButton } from "@/components/ui/get-started-button";
 
 const sections = [
   {
@@ -95,14 +95,13 @@ export default function DemoHub() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <p className="text-sm text-muted-foreground">{section.description}</p>
-                  <Button
-                    className="w-full"
-                    onClick={() => setLocation(section.path)}
-                    data-testid={`button-explore-${section.id}`}
-                  >
-                    Explore
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
+                  <div data-testid={`button-explore-${section.id}`} className="w-full">
+                    <GetStartedButton 
+                      text="Explore"
+                      onClick={() => setLocation(section.path)}
+                      className="w-full"
+                    />
+                  </div>
                 </CardContent>
               </Card>
             );
@@ -140,13 +139,12 @@ export default function DemoHub() {
           <p className="text-muted-foreground mb-4">
             Ready to start your visa journey?
           </p>
-          <Button
-            size="lg"
-            onClick={() => setLocation("/wizard")}
-            data-testid="button-start-advisor"
-          >
-            Start Visa Advisor
-          </Button>
+          <div data-testid="button-start-advisor">
+            <GetStartedButton
+              text="Start Visa Advisor"
+              onClick={() => setLocation("/wizard")}
+            />
+          </div>
         </div>
       </div>
     </div>

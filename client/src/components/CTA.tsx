@@ -1,5 +1,5 @@
+import { GetStartedButton } from "@/components/ui/get-started-button";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 
 export default function CTA() {
   return (
@@ -13,15 +13,9 @@ export default function CTA() {
           Start your free account today—no credit card required.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <Button 
-            size="lg" 
-            variant="secondary"
-            className="group"
-            data-testid="button-cta-start-free"
-          >
-            Start Free Account
-            <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          <div data-testid="button-cta-start-free">
+            <GetStartedButton text="Start Free Account" />
+          </div>
           <Button 
             size="lg" 
             variant="outline"

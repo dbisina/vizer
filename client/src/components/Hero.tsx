@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, CheckCircle, Globe, Users, Zap } from "lucide-react";
+import { CheckCircle, Globe, Users, Zap } from "lucide-react";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
+import { GetStartedButton } from "@/components/ui/get-started-button";
 import heroImage from "@assets/generated_images/hero_section_professionals_working.png";
 
 export default function Hero() {
@@ -30,14 +31,9 @@ export default function Hero() {
             </p>
             
             <div className="flex flex-wrap justify-center gap-4 pt-4">
-              <Button 
-                size="lg" 
-                className="group text-base"
-                data-testid="button-get-started"
-              >
-                Get Started Free
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              <div data-testid="button-get-started">
+                <GetStartedButton text="Get Started Free" />
+              </div>
               <Button 
                 size="lg" 
                 variant="outline"
