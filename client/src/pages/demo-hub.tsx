@@ -28,22 +28,22 @@ const sections = [
   },
   {
     id: "wizard",
-    title: "Visa Wizard",
-    description: "Interactive 5-step wizard with real visa recommendations",
+    title: "Visa Advisor",
+    description: "AI-powered Q&A to find your perfect visa match",
     icon: Wand2,
     path: "/wizard",
   },
   {
     id: "dashboard",
-    title: "Application Dashboard",
-    description: "Track visas, documents, timeline & application progress",
+    title: "My Documents",
+    description: "Download AI-generated cover letters, sponsorship letters & form guides",
     icon: BarChart3,
     path: "/dashboard",
   },
   {
     id: "ai-demo",
     title: "AI Features Demo",
-    description: "AI-powered document generation & visa analysis",
+    description: "AI-powered document generation & form guidance",
     icon: Zap,
     path: "/ai-demo",
   },
@@ -59,10 +59,10 @@ export default function DemoHub() {
         <div className="text-center space-y-3">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Globe className="w-8 h-8 text-primary" />
-            <h1 className="text-4xl font-bold">VisaHub Preview</h1>
+            <h1 className="text-4xl font-bold">VisaHub - AI Visa Advisor</h1>
           </div>
           <p className="text-lg text-muted-foreground">
-            Explore all features of the complete visa application platform
+            Get personalized visa guidance, AI-generated documents & form assistance
           </p>
         </div>
 
@@ -113,25 +113,25 @@ export default function DemoHub() {
         {/* Feature Highlights */}
         <div className="grid md:grid-cols-2 gap-6 mt-12">
           <Card className="p-6">
-            <h3 className="font-bold text-lg mb-3">✨ Key Features</h3>
+            <h3 className="font-bold text-lg mb-3">✨ How VisaHub Works</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>✓ 50+ countries with detailed visa requirements</li>
-              <li>✓ AI-powered visa recommendations</li>
-              <li>✓ Interactive multi-step application wizard</li>
-              <li>✓ Real-time application tracking</li>
-              <li>✓ Document management system</li>
-              <li>✓ Processing timeline visualization</li>
+              <li>✓ Answer questions about your background & goals</li>
+              <li>✓ AI analyzes & recommends perfect visa matches</li>
+              <li>✓ AI generates personalized cover letters</li>
+              <li>✓ AI creates sponsorship & support letters</li>
+              <li>✓ Step-by-step form guidance with explanations</li>
+              <li>✓ Direct links to official application portals</li>
             </ul>
           </Card>
           <Card className="p-6">
-            <h3 className="font-bold text-lg mb-3">🎨 Design Highlights</h3>
+            <h3 className="font-bold text-lg mb-3">🎯 What We Do</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>✓ Material Design + Stripe aesthetic</li>
-              <li>✓ Smooth animations with Framer Motion</li>
-              <li>✓ Fully responsive mobile design</li>
-              <li>✓ Dark mode support</li>
-              <li>✓ Image slider auth experience</li>
-              <li>✓ Glassmorphism & modern effects</li>
+              <li>✓ 50+ countries with detailed visa requirements</li>
+              <li>✓ Smart education visa matching (with school lookup)</li>
+              <li>✓ Country-specific language test requirements</li>
+              <li>✓ AI-powered document generation</li>
+              <li>✓ Form-filling assistance with explanations</li>
+              <li>✓ Apply to official portals with confidence</li>
             </ul>
           </Card>
         </div>

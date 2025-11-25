@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertApplicationSchema } from "@shared/schema";
+import { insertAdvisorySchema, insertDocumentSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Visa endpoints
@@ -39,35 +39,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Application endpoints
-  app.get("/api/applications/:userId", async (req, res) => {
+  // Advisory endpoints
+  app.post("/api/advisory", async (req, res) => {
     try {
-      const applications = await storage.getUserApplications(req.params.userId);
-      res.json(applications);
+      const parsed = insertAdvisorySchema.parse(req.body);
+      const advisory = await storage.createAdvisory(parsed);
+      res.status(201).json(advisory);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  });
+
+  app.get("/api/advisory/:userId", async (req, res) => {
+    try {
+      const advisories = await storage.getUserAdvisories(req.params.userId);
+      res.json(advisories);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch applications" });
+      res.status(500).json({ error: "Failed to fetch advisories" });
     }
   });
 
-  app.post("/api/applications", async (req, res) => {
+  // Document endpoints (for generated PDFs, cover letters, etc.)
+  app.post("/api/documents", async (req, res) => {
     try {
-      const parsed = insertApplicationSchema.parse(req.body);
-      const application = await storage.createApplication(parsed);
-      res.status(201).json(application);
+      const parsed = insertDocumentSchema.parse(req.body);
+      const document = await storage.createDocument(parsed);
+      res.status(201).json(document);
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }
   });
 
-  app.patch("/api/applications/:id", async (req, res) => {
+  app.get("/api/documents/:userId", async (req, res) => {
     try {
-      const updated = await storage.updateApplication(req.params.id, req.body);
-      if (!updated) {
-        return res.status(404).json({ error: "Application not found" });
-      }
-      res.json(updated);
-    } catch (error: any) {
-      res.status(400).json({ error: error.message });
+      const documents = await storage.getUserDocuments(req.params.userId);
+      res.json(documents);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch documents" });
     }
   });
 
