@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useReducedMotion } from "framer-motion"
-import { Check, Users, UserCheck } from "lucide-react"
+import { Check, Star, Clock, DollarSign, TrendingUp } from "lucide-react"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 
@@ -10,25 +10,31 @@ interface ProfileCardProps {
   description?: string
   image?: string
   isVerified?: boolean
-  followers?: number
-  following?: number
+  rating?: number
+  responseTime?: string
+  priceRange?: string
+  successRate?: number
+  yearsExperience?: number
   enableAnimations?: boolean
   className?: string
-  onFollow?: () => void
-  isFollowing?: boolean
+  onExpand?: () => void
+  onClick?: () => void
 }
 
 export function ProfileCard({
   name = "Sophie Bennett",
-  description = "Product Designer who focuses on simplicity & usability.",
+  description = "Immigration specialist with expertise in student visas.",
   image = "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?w=800&h=800&fit=crop&auto=format&q=80",
   isVerified = true,
-  followers = 312,
-  following = 48,
+  rating = 4.8,
+  responseTime = "2 hours",
+  priceRange = "$500-$2000",
+  successRate = 95,
+  yearsExperience = 8,
   enableAnimations = true,
   className,
-  onFollow = () => {},
-  isFollowing = false,
+  onExpand,
+  onClick,
 }: ProfileCardProps) {
   const [hovered, setHovered] = useState(false)
   const shouldReduceMotion = useReducedMotion()
@@ -123,11 +129,12 @@ export function ProfileCard({
       data-testid={`profile-card-${name}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={onClick || onExpand}
       initial="rest"
       whileHover="hover"
       variants={containerVariants}
       className={cn(
-        "relative w-80 h-96 rounded-3xl border border-border/20 text-card-foreground overflow-hidden shadow-xl shadow-black/5 cursor-pointer group backdrop-blur-sm",
+        "relative w-72 h-80 rounded-3xl border border-border/20 text-card-foreground overflow-hidden shadow-xl shadow-black/5 cursor-pointer group backdrop-blur-sm",
         "dark:shadow-black/20",
         className
       )}
@@ -142,21 +149,21 @@ export function ProfileCard({
       />
 
       {/* Smooth Blur Overlay - Multiple layers for seamless fade */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/40 via-background/20 via-background/10 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background/90 via-background/60 via-background/30 via-background/15 via-background/8 to-transparent backdrop-blur-[1px]" />
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background/85 via-background/40 to-transparent backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/50 via-background/25 via-background/10 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-background/90 via-background/60 via-background/35 to-transparent backdrop-blur-[1px]" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background/85 via-background/45 to-transparent backdrop-blur-sm" />
 
       {/* Content */}
       <motion.div 
         variants={contentVariants}
         initial="hidden"
         animate="visible"
-        className="absolute bottom-0 left-0 right-0 p-6 space-y-4"
+        className="absolute bottom-0 left-0 right-0 p-4 space-y-2"
       >
         {/* Name and Verification */}
-        <motion.div variants={itemVariants} className="flex items-center gap-2">
+        <motion.div variants={itemVariants} className="flex items-center gap-1">
           <motion.h2 
-            className="text-2xl font-bold text-foreground"
+            className="text-lg font-bold text-foreground leading-tight"
             variants={{
               visible: {
                 transition: {
@@ -178,7 +185,7 @@ export function ProfileCard({
           {isVerified && (
             <motion.div 
               variants={itemVariants}
-              className="flex items-center justify-center w-4 h-4 rounded-full bg-green-500 text-white"
+              className="flex items-center justify-center w-3.5 h-3.5 rounded-full bg-green-500 text-white flex-shrink-0"
               data-testid="badge-verified"
               whileHover={{ 
                 scale: 1.1, 
@@ -186,7 +193,7 @@ export function ProfileCard({
                 transition: { type: "spring", stiffness: 400, damping: 20 }
               }}
             >
-              <Check className="w-2.5 h-2.5" />
+              <Check className="w-2 h-2" />
             </motion.div>
           )}
         </motion.div>
@@ -194,48 +201,46 @@ export function ProfileCard({
         {/* Description */}
         <motion.p 
           variants={itemVariants}
-          className="text-muted-foreground text-sm leading-relaxed"
+          className="text-muted-foreground text-xs leading-tight line-clamp-1"
         >
           {description}
         </motion.p>
 
-        {/* Stats */}
+        {/* Stats Grid - Compact */}
         <motion.div 
           variants={itemVariants}
-          className="flex items-center gap-6 pt-2"
+          className="grid grid-cols-2 gap-1.5 pt-1"
         >
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Users className="w-4 h-4" />
-            <span className="font-semibold text-foreground" data-testid={`text-followers-${name}`}>{followers}</span>
-            <span className="text-sm">followers</span>
+          <div className="flex items-center gap-1 text-xs">
+            <Star className="w-3 h-3 text-yellow-400 flex-shrink-0" />
+            <span className="font-semibold">{rating}</span>
           </div>
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <UserCheck className="w-4 h-4" />
-            <span className="font-semibold text-foreground" data-testid={`text-following-${name}`}>{following}</span>
-            <span className="text-sm">following</span>
+          <div className="flex items-center gap-1 text-xs">
+            <Clock className="w-3 h-3 text-muted-foreground flex-shrink-0" />
+            <span className="truncate text-xs">{responseTime}</span>
+          </div>
+          <div className="flex items-center gap-1 text-xs">
+            <DollarSign className="w-3 h-3 text-muted-foreground flex-shrink-0" />
+            <span className="truncate text-xs">{priceRange}</span>
+          </div>
+          <div className="flex items-center gap-1 text-xs">
+            <TrendingUp className="w-3 h-3 text-green-500 flex-shrink-0" />
+            <span className="font-semibold">{successRate}%</span>
           </div>
         </motion.div>
 
-        {/* Follow Button */}
+        {/* View Details Button */}
         <motion.button
           variants={itemVariants}
-          onClick={onFollow}
           data-testid={`button-contact-${name}`}
           whileHover={{ 
             scale: 1.02,
             transition: { type: "spring", stiffness: 400, damping: 25 }
           }}
           whileTap={{ scale: 0.98 }}
-          className={cn(
-            "w-full cursor-pointer py-3 px-4 rounded-2xl font-semibold text-sm transition-all duration-200",
-            "border border-border/20 shadow-sm",
-            isFollowing 
-              ? "bg-muted text-muted-foreground hover:bg-muted/80" 
-              : "bg-foreground text-background hover:bg-foreground/90",
-            "transform-gpu"
-          )}
+          className="w-full cursor-pointer py-2 px-3 rounded-lg font-semibold text-xs transition-all duration-200 bg-foreground text-background hover:bg-foreground/90 border border-border/20 shadow-sm transform-gpu mt-1"
         >
-          {isFollowing ? "Following" : "Contact Agent"}
+          View Details
         </motion.button>
       </motion.div>
     </motion.div>

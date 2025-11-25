@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Star, MapPin, Clock, DollarSign, Globe, Mail, Phone, Award } from "lucide-react";
 import AnimatedLoadingSkeleton from "@/components/ui/animated-loading-skeleton";
 import { ProfileCard } from "@/components/ui/profile-card";
+import { AgentDetailModal } from "@/components/AgentDetailModal";
 import type { TravelAgent } from "@shared/schema";
 
 const countries = ["Canada", "United States", "United Kingdom", "Germany", "Australia", "France", "Netherlands"];
@@ -18,6 +19,8 @@ export default function TravelAgentMarketplace() {
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [minRating, setMinRating] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedAgent, setSelectedAgent] = useState<TravelAgent | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data: agents = [], isLoading } = useQuery<TravelAgent[]>({
     queryKey: ["/api/travel-agents"],
@@ -119,10 +122,15 @@ export default function TravelAgentMarketplace() {
                     description={agent.description || ""}
                     image={agent.image || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&h=800&fit=crop&auto=format&q=80"}
                     isVerified={true}
-                    followers={Number(agent.rating) * 100}
-                    following={agent.reviewCount || 0}
-                    onFollow={() => console.log(`Contact ${agent.name}`)}
-                    isFollowing={false}
+                    rating={agent.rating ? Number(agent.rating) : 4.5}
+                    responseTime={agent.responseTime || "1-2 days"}
+                    priceRange={agent.priceRange || "$500-$2000"}
+                    successRate={agent.successRate ? Number(agent.successRate) : 85}
+                    yearsExperience={agent.yearsExperience}
+                    onClick={() => {
+                      setSelectedAgent(agent);
+                      setIsModalOpen(true);
+                    }}
                   />
                 ))}
               </div>
@@ -163,6 +171,13 @@ export default function TravelAgentMarketplace() {
             </div>
           </div>
         </Card>
+
+        {/* Agent Detail Modal */}
+        <AgentDetailModal 
+          agent={selectedAgent} 
+          isOpen={isModalOpen} 
+          onClose={() => setIsModalOpen(false)} 
+        />
       </div>
     </div>
   );
